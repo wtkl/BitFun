@@ -10,7 +10,7 @@
     "tabs": {
       "theme": "Appearance",
       "models": "Models",
-      "aiFeatures": "AI Features",
+      "sessionConfig": "Session Config",
       "aiRules": "Rules",
       "aiMemory": "Memory",
       "aiContext": "Rules & Memory",

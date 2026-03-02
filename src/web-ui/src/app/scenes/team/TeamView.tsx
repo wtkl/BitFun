@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useTeamStore } from './teamStore';
 import AgentsOverviewPage from './components/AgentsOverviewPage';
+import CreateAgentPage from './components/CreateAgentPage';
 import ExpertTeamsPage from './components/ExpertTeamsPage';
 import TeamTabBar from './components/TeamTabBar';
 import AgentGallery from './components/AgentGallery';
@@ -44,6 +45,7 @@ const TeamView: React.FC = () => {
 
   if (page === 'editor') return <TeamEditorView />;
   if (page === 'expertTeamsOverview') return <ExpertTeamsPage />;
+  if (page === 'createAgent') return <CreateAgentPage />;
 
   return <AgentsOverviewPage />;
 };

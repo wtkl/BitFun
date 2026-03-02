@@ -11,7 +11,7 @@
  * the outer Grid accordion handles the actual height collapse.
  */
 
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import { useSceneManager } from '../../hooks/useSceneManager';
@@ -33,7 +33,10 @@ import SkillsSection from './sections/skills/SkillsSection';
 import WorkspaceHeader from './components/WorkspaceHeader';
 import { useSceneStore } from '../../stores/sceneStore';
 import { flowChatManager } from '@/flow_chat/services/FlowChatManager';
+import { configManager } from '@/infrastructure/config/services/ConfigManager';
 import { createLogger } from '@/shared/utils/logger';
+
+const DEFAULT_MODE_CONFIG_KEY = 'app.session_config.default_mode';
 import './NavPanel.scss';
 
 const log = createLogger('MainNav');
@@ -184,6 +187,21 @@ const MainNav: React.FC<MainNavProps> = ({
 
   const sessionMode = useSessionModeStore(s => s.mode);
 
+  const [defaultSessionMode, setDefaultSessionMode] = useState<'code' | 'cowork'>('code');
+
+  useEffect(() => {
+    configManager.getConfig<'code' | 'cowork'>(DEFAULT_MODE_CONFIG_KEY).then(mode => {
+      if (mode === 'code' || mode === 'cowork') setDefaultSessionMode(mode);
+    }).catch(() => {});
+
+    const unwatch = configManager.watch(DEFAULT_MODE_CONFIG_KEY, () => {
+      configManager.getConfig<'code' | 'cowork'>(DEFAULT_MODE_CONFIG_KEY).then(mode => {
+        if (mode === 'code' || mode === 'cowork') setDefaultSessionMode(mode);
+      }).catch(() => {});
+    });
+    return () => unwatch();
+  }, []);
+
   const handleCreateSession = useCallback(async () => {
     openScene('session');
     switchLeftPanelTab('sessions');
@@ -253,7 +271,7 @@ const MainNav: React.FC<MainNavProps> = ({
                               isOpen={isOpen}
                               onClick={() => handleItemClick(tab, item)}
                               actionIcon={tab === 'sessions' ? Plus : undefined}
-                              actionTitle={tab === 'sessions' ? t('nav.sessions.newSession') : undefined}
+                              actionTitle={tab === 'sessions' ? (defaultSessionMode === 'cowork' ? t('nav.sessions.newCoworkSession') : t('nav.sessions.newCodeSession')) : undefined}
                               onActionClick={tab === 'sessions' ? handleCreateSession : undefined}
                             />
                           </div>

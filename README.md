@@ -17,16 +17,32 @@
 
 ## A Word Up Front
 
-In the age of AI, we believe human–machine collaboration needs a fundamentally new form of software. Today, the programming domain is the most mature starting point for that exploration.
+In the age of AI, true human–machine collaboration isn't just a ChatBox — it's a partner that knows you, accompanies you, and gets things done for you anywhere, anytime. That's where BitFun's exploration begins.
 
 ## What Is BitFun
 
-BitFun is an Agentic Development Environment (ADE). While featuring a cutting-edge Code Agent system, we are more committed to deeply exploring and defining human–machine collaboration patterns, built with Rust + TypeScript for an ultra-lightweight and fluid experience.
+BitFun is a next-generation Agent system built around the idea of **"AI assistants with personality and memory"**.
+
+Every user has their own Agent assistant — one that remembers your habits and preferences, carries a unique personality, and keeps growing over time. On top of this assistant, BitFun ships with two built-in capabilities: **Code Agent** (coding assistant) and **Cowork Agent** (knowledge work assistant), along with a unified extension mechanism to define additional Agent roles as needed.
+
+Your assistant isn't confined to the desktop — it can be reached through multiple channels, such as WeChat, Telegram, WhatsApp, and other social platforms, letting you issue instructions anytime, anywhere. Tasks keep running in the background, and you check in or give feedback whenever convenient.
+
+Built with **Rust + TypeScript** for an ultra-lightweight, fluid, cross-platform experience.
 
 ![BitFun](./png/first_screen_screenshot.png)
 
+### Agent System
 
-### Working Modes
+| Agent | Role | Core Capabilities |
+|---|---|---|
+| **Personal Assistant (WIP🚧)** (default) | Your dedicated AI companion | Long-term memory, personality settings, cross-scenario orchestration, continuous growth |
+| **Code Agent** | Coding assistant | Conversation-driven coding, multi-mode task execution, autonomous read / edit / run / verify |
+| **Cowork Agent** | Knowledge work assistant | File management, document generation, report organization, autonomous multi-step task execution |
+| **Custom Agent** | Domain specialist | Quickly define a domain-specific Agent with Markdown |
+
+### Code Agent Working Modes
+
+Code Agent is built for software development, offering multiple modes that cover the full cycle from day-to-day coding to deep debugging, with deep integration into MCP, Skills, and Rules:
 
 | Mode | Scenario | Characteristics |
 |------|----------|-----------------|
@@ -34,15 +50,30 @@ BitFun is an Agentic Development Environment (ADE). While featuring a cutting-ed
 | **Plan** | Complex tasks | Plan first, then execute; align on critical changes upfront. |
 | **Debug** | Hard problems | Instrument & trace → compare paths → root-cause analysis → verify fix. |
 | **Review** | Code review | Review code based on key repository conventions. |
----
 
+### Cowork Agent Workflow
+
+Cowork Agent is designed for everyday work, following a "clarify first, execute next, stay trackable" collaboration principle, with built-in office Skills and access to the Skill marketplace:
+
+| Skill | Trigger | Core Capabilities |
+|---|---|---|
+| **PDF** | Working with .pdf files | Read/extract text & tables, merge/split/rotate, watermark, fill forms, encrypt/decrypt, OCR scanned PDFs |
+| **DOCX** | Create or edit Word documents | Create/edit .docx, styles/TOC/headers & footers, image insertion, comments & tracked changes |
+| **XLSX** | Working with spreadsheets | Create/analyze .xlsx/.csv, formulas & formatting, financial model standards (color coding, formula validation) |
+| **PPTX** | Build presentations | Create/edit .pptx from scratch, visual design guidelines, automated visual QA |
+| **agent-browser** | Browser interaction needed | Browser automation: open pages, click/fill forms, screenshot, scrape data, web app testing |
+| **skill-creator** | Creating a custom Skill | Guides authoring new Skills to extend the Agent's domain-specific capabilities |
+| **find-skills** | Looking for ready-made capabilities | Discover and install community-contributed reusable Skills from the Skill marketplace |
+
+---
 
 ### Extensibility
 
-- **MCP Protocol**: Extend with external tools and resources via MCP servers.
+- **MCP Protocol**: Extend with external tools and resources via MCP servers; supports MCP Apps.
 - **Skills**: Markdown/script-based capability packages that teach the Agent specific tasks (auto-reads Cursor, Claude Code, Codex configs).
-- **Agent Customization**: Quickly define specialized Agents with Markdown.
-- **Rules**: Quickly customize professional Agents via Markdown (auto-reads Cursor configs).
+- **Agent Customization**: Quickly define a specialized Agent's personality, memory scope, and capabilities with Markdown.
+- **Rules**: Project/global-level convention injection; auto-reads Cursor and other mainstream tool configs.
+- **Hooks (WIP🚧)**: Inject deterministic automation logic at key task milestones.
 
 ---
 
@@ -78,13 +109,15 @@ For more details, see the [Contributing Guide](./CONTRIBUTING.md).
 
 ## Platform Support
 
-The project uses a Rust + TypeScript tech stack, supporting cross-platform and multi-form-factor reuse.
+The project uses a Rust + TypeScript tech stack, supporting cross-platform and multi-form-factor reuse — keeping your Agent assistant always online and reachable everywhere.
+
 | Form Factor | Supported Platforms | Status |
 |-------------|---------------------|--------|
 | **Desktop** (Tauri) | Windows, macOS | ✅ Supported |
 | **CLI** | Windows, macOS, Linux | 🚧 In Development |
 | **Server** | - | 🚧 In Development |
-| **Mobile** | - | 🚧 In Development |
+| **Mobile** (Native App) | iOS, Android | 🚧 In Development |
+| **Social Platform Integration** | WeChat, Telegram, WhatsApp, Discord, etc. | 🚧 In Development |
 
 
 

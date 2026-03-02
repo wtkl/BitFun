@@ -11,9 +11,8 @@ import { useSettingsStore } from './settingsStore';
 import './SettingsScene.scss';
 
 const AIModelConfig        = lazy(() => import('../../../infrastructure/config/components/AIModelConfig'));
-const AIFeaturesConfig     = lazy(() => import('../../../infrastructure/config/components/AIFeaturesConfig'));
+const SessionConfig        = lazy(() => import('../../../infrastructure/config/components/SessionConfig'));
 const AIRulesMemoryConfig  = lazy(() => import('../../../infrastructure/config/components/AIRulesMemoryConfig'));
-const AgentsConfig         = lazy(() => import('../../../infrastructure/config/components/AgentsConfig'));
 const McpToolsConfig       = lazy(() => import('../../../infrastructure/config/components/McpToolsConfig'));
 const LspConfig            = lazy(() => import('../../../infrastructure/config/components/LspConfig'));
 const DebugConfig          = lazy(() => import('../../../infrastructure/config/components/DebugConfig'));
@@ -31,11 +30,10 @@ const SettingsScene: React.FC = () => {
   switch (activeTab) {
     case 'theme':            Content = ThemeConfigComponent; break;
     case 'models':           Content = AIModelConfig;        break;
-    case 'ai-features':      Content = AIFeaturesConfig;     break;
+    case 'session-config':   Content = SessionConfig;        break;
     case 'ai-context':       Content = AIRulesMemoryConfig; break;
     case 'prompt-templates': Content = PromptTemplateConfig; break;
     case 'mcp-tools':        Content = McpToolsConfig;      break;
-    case 'agents':           Content = AgentsConfig;         break;
     case 'lsp':              Content = LspConfig;            break;
     case 'debug':            Content = DebugConfig;          break;
     case 'logging':          Content = LoggingConfig;        break;

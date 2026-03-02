@@ -10,7 +10,7 @@
     "tabs": {
       "theme": "外观",
       "models": "模型",
-      "aiFeatures": "智能特性",
+      "sessionConfig": "会话配置",
       "aiRules": "规则",
       "aiMemory": "记忆",
       "aiContext": "规则 & 记忆",

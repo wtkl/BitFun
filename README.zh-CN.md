@@ -17,15 +17,32 @@
 
 ## 写在前面的话
 
-AI时代，我们相信人机协同需要一种全新的软件形态。而当下，编程领域是这一探索最成熟的起点。
+AI 时代，真正的人机协同不是简单的ChatBox，而是一个懂你、陪你并且随时随地替你做事的伙伴。BitFun 的探索，从这里开始。
 
 ## 什么是 BitFun
 
-BitFun 是一款代理式开发环境（ADE，Agentic Development Environment），在拥有前沿Code Agent体系的同时我们更希望深度探索并定义人机协作方式，并以Rust + TypeScript希望提供极致轻巧、流畅的体验。
+BitFun 是一个以 **"有个性、有记忆的 AI 助理"** 为核心的新一代 Agent 系统。
+
+每一位用户都拥有属于自己的 Agent 助理——它记得你的习惯与偏好，拥有独特的性格设定，并随时间持续成长。在这个助理之上，BitFun 默认内置了 **Code Agent**（代码代理）与 **Cowork Agent**（桌面端工作助理）两种专业能力，并提供统一的扩展机制供用户按需定制更多 Agent 角色。
+
+你的助理不只存在于桌面——可以通过多种媒体方式联系，比如通过微信、Telegram、WhatsApp 等社交平台，都可以随时随地向它下达指令，任务在后台持续推进，你只需在方便时查看进度或给出反馈。
+
+以 **Rust + TypeScript** 构建，追求极致轻量与流畅的跨平台体验。
 
 ![BitFun](./png/first_screen_screenshot-zh-CN.png)
 
-### 工作模式
+### Agent 体系
+
+| Agent | 定位 | 核心能力 |
+|---|---|---|
+| **个人助理（WIP🚧）**（默认） | 你专属的 AI 伙伴 | 长期记忆、个性设定、跨场景调度、持续成长 |
+| **Code Agent** | 代码代理 | 对话驱动编码，多模式任务执行，自主读/改/跑/验证 |
+| **Cowork Agent** | 知识工作代理 | 文件管理、文档生成、报告整理、多步任务自主执行 |
+| **自定义 Agent** | 垂域专家 | 通过 Markdown 快速定义专属领域 Agent |
+
+### Code Agent 工作模式
+
+Code Agent 专为软件开发设计，支持多种工作模式覆盖从日常编码到疑难排查的全流程，并深度集成 MCP、Skills、Rules 等扩展体系：
 
 | 模式 | 场景 | 特点 |
 |---|---|---|
@@ -33,16 +50,31 @@ BitFun 是一款代理式开发环境（ADE，Agentic Development Environment）
 | **Plan** | 复杂任务 | 先规划后执行，关键改动点提前对齐 |
 | **Debug** | 疑难问题 | 插桩取证 → 路径对比 → 根因定位 → 验证修复 |
 | **Review** | 代码审查 | 基于仓库关键规范进行代码审查 |
+
+
+### Cowork Agent 工作方式
+
+Cowork Agent 专为日常工作设计，遵循"先澄清、再执行、可追踪"的协作原则，内置多个常用办公Skill，并对接skill市场：
+
+| Skill | 触发场景 | 核心能力 |
+|---|---|---|
+| **PDF** | 处理 .pdf 文件 | 读取/提取文本与表格、合并/拆分/旋转、添加水印、填写表单、加密解密、OCR 扫描版 |
+| **DOCX** | 创建或编辑 Word 文档 | 创建/编辑 .docx、样式/目录/页眉页脚、插入图片、批注与追踪修订 |
+| **XLSX** | 处理电子表格 | 创建/分析 .xlsx/.csv，公式与格式化，财务模型规范（颜色编码、公式校验） |
+| **PPTX** | 制作演示文稿 | 从零创建/编辑 .pptx，视觉设计规范，自动 QA 视觉检查 |
+| **agent-browser** | 需要操控网页 | 浏览器自动化：打开网页、点击/填表、截图、抓取数据、Web 测试 |
+| **skill-creator** | 创建自定义 Skill | 引导创作新 Skill，扩展 Agent 的专业能力范围 |
+| **find-skills** | 寻找现成能力包 | 从 Skill 市场发现并安装社区贡献的可复用 Skill |
+
 ---
-
-
 
 ### 扩展能力
 
-- **MCP 协议**：通过 MCP 服务器扩展外部工具与资源
-- **Skills**：Markdown/脚本等能力包，教 Agent 完成特定任务（自动读取Cursor、Claude Code、Codex等配置）
-- **Agent 自定义**：通过 Markdown 快速自定义专业 Agent
-- **Rules**：通过 Markdown 快速自定义专业 Agent（自动读取Cursor配置）
+- **MCP 协议**：通过 MCP 服务器扩展外部工具与资源，支持MCP APP
+- **Skills**：Markdown/脚本等能力包，教 Agent 完成特定任务（自动读取 Cursor、Claude Code、Codex 等配置）
+- **Agent 自定义**：通过 Markdown 快速定义专属 Agent 的性格、记忆与能力范围
+- **Rules**：项目/全局级规范注入，自动读取 Cursor 等主流工具配置
+- **Hooks（WIP🚧）**：在任务关键节点注入确定性自动化逻辑
 
 ---
 
@@ -78,13 +110,15 @@ npm run desktop:build
 
 ## 平台支持
 
-项目采用 Rust + TypeScript 技术栈，支持跨平台和多形态复用。
+项目采用 Rust + TypeScript 技术栈，支持跨平台和多形态复用，确保你的 Agent 助理随时在线、随处可达。
+
 | 形态 | 支持平台 | 状态 |
 |------|----------|------|
-| **Desktop**（Tauri） | Windows、macOS| ✅ 已支持 |
+| **Desktop**（Tauri） | Windows、macOS | ✅ 已支持 |
 | **CLI** | Windows、macOS、Linux | 🚧 开发中 |
 | **Server** | - | 🚧 开发中 |
-| **手机端** | - | 🚧 开发中 |
+| **手机端**（独立 App） | iOS、Android | 🚧 开发中 |
+| **社交平台接入** | 微信、Telegram、WhatsApp、Discord 等 | 🚧 开发中 |
 
 
 

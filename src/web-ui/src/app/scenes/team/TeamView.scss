@@ -1,11 +1,23 @@
 @use '../../../component-library/styles/tokens' as *;
 
+// ─── Page enter animations ────────────────────────────────────────────────────
+
+@keyframes tv-page-reveal {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv { animation: none !important; }
+}
+
 // ─── Main layout ──────────────────────────────────────────────────────────────
 .tv {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  animation: tv-page-reveal 0.32s $easing-decelerate both;
 
   // ── Editor bar (back button) ─────────────────────────────────────────────
   &__editor-bar {

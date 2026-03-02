@@ -1,6 +1,5 @@
 
 export { default as AIModelConfig } from './AIModelConfig';
-export { default as AgentsConfig } from './AgentsConfig';
 export { ThemeConfig } from './ThemeConfig';
 export { default as AIRulesMemoryConfig } from './AIRulesMemoryConfig';
 export { default as MCPResourceBrowser } from './MCPResourceBrowser';

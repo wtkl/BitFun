@@ -9,6 +9,7 @@
 
 import React, { useCallback } from 'react';
 import { Plus, X } from 'lucide-react';
+import { Tooltip } from '@/component-library';
 import type { SceneTab as SceneTabType, SceneTabDef } from './types';
 
 interface SceneTabProps {
@@ -82,17 +83,18 @@ const SceneTab: React.FC<SceneTabProps> = ({
           </>
         )}
         {onActionClick && (
-          <span
-            className="bitfun-scene-tab__action"
-            onClick={handleActionClick}
-            onMouseDown={e => e.stopPropagation()}
-            role="button"
-            tabIndex={-1}
-            aria-label={actionTitle ?? ''}
-            title={actionTitle ?? ''}
-          >
-            <Plus size={12} aria-hidden="true" />
-          </span>
+          <Tooltip content={actionTitle} placement="bottom" followCursor>
+            <span
+              className="bitfun-scene-tab__action"
+              onClick={handleActionClick}
+              onMouseDown={e => e.stopPropagation()}
+              role="button"
+              tabIndex={-1}
+              aria-label={actionTitle ?? ''}
+            >
+              <Plus size={12} aria-hidden="true" />
+            </span>
+          </Tooltip>
         )}
       </div>
 

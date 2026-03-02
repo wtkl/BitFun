@@ -33,7 +33,10 @@ import { createLogger } from '@/shared/utils/logger';
 const log = createLogger('ToolbarMode');
 import { ModernFlowChatContainer } from '../modern/ModernFlowChatContainer';
 import { Tooltip } from '@/component-library';
+import { configManager } from '@/infrastructure/config/services/ConfigManager';
 import './ToolbarMode.scss';
+
+const DEFAULT_MODE_CONFIG_KEY = 'app.session_config.default_mode';
 
 // Window size config (physical pixels, accounts for Windows DPI scaling).
 const TOOLBAR_WIDTH = 600;
@@ -56,8 +59,21 @@ export const ToolbarMode: React.FC = () => {
   const [flowChatState, setFlowChatState] = useState<FlowChatState>(() => 
     flowChatStore.getState()
   );
+  const [defaultMode, setDefaultMode] = useState<'code' | 'cowork'>('code');
   const sessionPickerRef = useRef<HTMLDivElement>(null);
-  
+
+  useEffect(() => {
+    configManager.getConfig<'code' | 'cowork'>(DEFAULT_MODE_CONFIG_KEY).then(mode => {
+      if (mode === 'code' || mode === 'cowork') setDefaultMode(mode);
+    }).catch(() => {});
+    const unwatch = configManager.watch(DEFAULT_MODE_CONFIG_KEY, () => {
+      configManager.getConfig<'code' | 'cowork'>(DEFAULT_MODE_CONFIG_KEY).then(mode => {
+        if (mode === 'code' || mode === 'cowork') setDefaultMode(mode);
+      }).catch(() => {});
+    });
+    return () => unwatch();
+  }, []);
+
   useEffect(() => {
     const unsubscribe = flowChatStore.subscribe((state) => {
       setFlowChatState(state);
@@ -330,7 +346,7 @@ export const ToolbarMode: React.FC = () => {
       )}
       
       <div className="bitfun-toolbar-mode__header">
-        <Tooltip content={t('session.new')}>
+        <Tooltip content={defaultMode === 'cowork' ? t('session.newCowork') : t('session.newCode')}>
           <button
             className="bitfun-toolbar-mode__create-btn"
             onClick={handleCreateSession}

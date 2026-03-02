@@ -13,7 +13,6 @@ import { flowChatStore } from '../../../../../flow_chat/store/FlowChatStore';
 import { flowChatManager } from '../../../../../flow_chat/services/FlowChatManager';
 import type { FlowChatState, Session } from '../../../../../flow_chat/types/flow-chat';
 import { useSceneStore } from '../../../../stores/sceneStore';
-import { useSessionModeStore } from '../../../../stores/sessionModeStore';
 import type { SessionMode } from '../../../../stores/sessionModeStore';
 import { useApp } from '../../../../hooks/useApp';
 import type { SceneTabId } from '../../../SceneBar/types';
@@ -23,11 +22,6 @@ import './SessionsSection.scss';
 const MAX_VISIBLE_SESSIONS = 8;
 const log = createLogger('SessionsSection');
 const AGENT_SCENE: SceneTabId = 'session';
-
-const SESSION_MODES: { key: SessionMode; Icon: typeof Code2; labelKey: string }[] = [
-  { key: 'code',   Icon: Code2, labelKey: 'nav.sessions.modeCode' },
-  { key: 'cowork', Icon: Users, labelKey: 'nav.sessions.modeCowork' },
-];
 
 const resolveSessionMode = (session: Session): SessionMode => {
   return session.mode?.toLowerCase() === 'cowork' ? 'cowork' : 'code';
@@ -40,8 +34,6 @@ const SessionsSection: React.FC = () => {
   const { t } = useI18n('common');
   const { switchLeftPanelTab } = useApp();
   const openScene = useSceneStore(s => s.openScene);
-  const sessionMode = useSessionModeStore(s => s.mode);
-  const setSessionMode = useSessionModeStore(s => s.setMode);
   const activeTabId = useSceneStore(s => s.activeTabId);
   const [flowChatState, setFlowChatState] = useState<FlowChatState>(() =>
     flowChatStore.getState()
@@ -98,22 +90,18 @@ const SessionsSection: React.FC = () => {
     [activeSessionId, openScene, switchLeftPanelTab, editingSessionId]
   );
 
-  const handleCreate = useCallback(async () => {
+  const handleCreate = useCallback(async (mode: SessionMode) => {
     openScene('session');
     switchLeftPanelTab('sessions');
     try {
       await flowChatManager.createChatSession(
         { modelName: 'claude-sonnet-4.5' },
-        sessionMode === 'cowork' ? 'Cowork' : 'agentic'
+        mode === 'cowork' ? 'Cowork' : 'agentic'
       );
     } catch (err) {
       log.error('Failed to create session', err);
     }
-  }, [openScene, switchLeftPanelTab, sessionMode]);
-
-  const handleModeSwitch = useCallback((mode: SessionMode) => {
-    setSessionMode(mode);
-  }, [setSessionMode]);
+  }, [openScene, switchLeftPanelTab]);
 
   const resolveSessionTitle = useCallback(
     (session: Session): string => {
@@ -187,36 +175,26 @@ const SessionsSection: React.FC = () => {
   return (
     <div className="bitfun-nav-panel__inline-list">
       <div className="bitfun-nav-panel__inline-action-row">
-        <Tooltip content={t('nav.sessions.newSession')} placement="right" followCursor>
+        <Tooltip content={t('nav.sessions.newCodeSession')} placement="right" followCursor>
           <button
             type="button"
-            className="bitfun-nav-panel__inline-action"
-            onClick={handleCreate}
+            className="bitfun-nav-panel__inline-action is-code"
+            onClick={() => handleCreate('code')}
           >
             <Plus size={12} />
-            <span>
-              {sessionMode === 'code'
-                ? t('nav.sessions.newCodeSession')
-                : t('nav.sessions.newCoworkSession')}
-            </span>
+            <span>Code</span>
           </button>
         </Tooltip>
-        <div className="bitfun-nav-panel__mode-switcher">
-          {SESSION_MODES.map(({ key, Icon, labelKey }) => (
-            <Tooltip key={key} content={t(labelKey)} placement="top" followCursor>
-              <span
-                className={`bitfun-nav-panel__mode-chip${sessionMode === key ? ' is-active' : ''}`}
-                role="button"
-                tabIndex={-1}
-                aria-label={t(labelKey)}
-                aria-pressed={sessionMode === key}
-                onClick={() => handleModeSwitch(key)}
-              >
-                <Icon size={sessionMode === key ? 11 : 9} />
-              </span>
-            </Tooltip>
-          ))}
-        </div>
+        <Tooltip content={t('nav.sessions.newCoworkSession')} placement="right" followCursor>
+          <button
+            type="button"
+            className="bitfun-nav-panel__inline-action is-cowork"
+            onClick={() => handleCreate('cowork')}
+          >
+            <Plus size={12} />
+            <span>Cowork</span>
+          </button>
+        </Tooltip>
       </div>
 
       {sessions.length === 0 ? (
@@ -229,7 +207,6 @@ const SessionsSection: React.FC = () => {
           const SessionIcon = sessionModeKey === 'cowork' ? Users : Code2;
           const row = (
             <div
-              key={session.sessionId}
               className={[
                 'bitfun-nav-panel__inline-item',
                 activeTabId === AGENT_SCENE && session.sessionId === activeSessionId && 'is-active',
