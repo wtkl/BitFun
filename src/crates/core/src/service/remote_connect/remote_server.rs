@@ -690,6 +690,10 @@ impl RemoteServer {
             }
             RemoteCommand::GetSessionMessages { session_id, limit, before_message_id } => {
                 let limit = limit.unwrap_or(50);
+                let session_mgr = coordinator.get_session_manager();
+                if session_mgr.get_session(session_id).is_none() {
+                    let _ = coordinator.restore_session(session_id).await;
+                }
                 match coordinator.get_messages_paginated(session_id, limit, before_message_id.as_deref()).await {
                     Ok((messages, has_more)) => {
                         let chat_msgs = messages
@@ -742,9 +746,11 @@ impl RemoteServer {
                             has_more,
                         }
                     }
-                    Err(e) => RemoteResponse::Error {
-                        message: e.to_string(),
-                    },
+                    Err(e) => {
+                        RemoteResponse::Error {
+                            message: e.to_string(),
+                        }
+                    }
                 }
             }
             RemoteCommand::DeleteSession { session_id } => {

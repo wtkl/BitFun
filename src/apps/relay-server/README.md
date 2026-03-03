@@ -22,6 +22,16 @@ bash deploy.sh
 bash deploy.sh --build-mobile
 ```
 
+### What URL should I fill in BitFun Desktop?
+
+In **Remote Connect → Self-Hosted → Server URL**, use one of:
+
+- Direct relay port: `http://<YOUR_SERVER_IP>:9700`
+- Reverse proxy on domain root: `https://relay.example.com`
+- Reverse proxy with `/relay` prefix: `https://relay.example.com/relay`
+
+`/relay` is **not mandatory**. It is only needed when your reverse proxy is configured with that path prefix.
+
 ### Manual
 
 ```bash
@@ -89,6 +99,23 @@ RELAY_PORT=9700 ./target/release/bitfun-relay-server
 3. Run `bash deploy.sh --build-mobile`
 4. Configure DNS/firewall as needed
 5. In BitFun desktop, select "Custom Server" and enter your server URL
+
+### Deployment Checklist (Recommended)
+
+1. Open required ports:
+   - `9700` (relay direct access, optional if only via reverse proxy)
+   - `80/443` (for Caddy reverse proxy)
+2. Verify health endpoint:
+   - `http://<server-ip>:9700/health`
+3. Configure your final URL strategy:
+   - root domain (`https://relay.example.com`) or
+   - path prefix (`https://relay.example.com/relay`)
+4. Fill the same URL into BitFun Desktop "Custom Server".
+
+### About `src/apps/server` vs `src/apps/relay-server`
+
+- Remote Connect self-hosted deployment uses **`src/apps/relay-server`**.
+- `src/apps/server` is a different application and not the relay service used by mobile/desktop Remote Connect.
 
 ## Architecture
 

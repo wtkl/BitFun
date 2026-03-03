@@ -354,7 +354,7 @@ export const RemoteConnectDialog: React.FC<RemoteConnectDialogProps> = ({
             <input
               type="url"
               className="bitfun-remote-connect__input"
-              placeholder="https://your-server:9700"
+              placeholder="https://relay.example.com"
               value={customUrl}
               onChange={(e) => setCustomUrl(e.target.value)}
             />

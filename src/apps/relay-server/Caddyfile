@@ -6,6 +6,13 @@
 #       reverse_proxy relay-server:9700
 #   }
 #
+# Option A2: With a /relay path prefix
+#   relay.yourdomain.com {
+#       handle_path /relay/* {
+#           reverse_proxy relay-server:9700
+#       }
+#   }
+#
 # Option B: IP-only with self-signed cert
 :443 {
     tls internal
