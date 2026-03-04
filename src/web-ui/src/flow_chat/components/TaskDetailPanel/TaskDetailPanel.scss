@@ -76,8 +76,8 @@
     right: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--color-primary);
-    animation: task-detail-spin 1s linear infinite;
+    display: flex;
+    align-items: center;
   }
 
   &__header-failed {
@@ -190,11 +190,6 @@
     font-size: 13px;
   }
 
-  &__loading-icon {
-    color: var(--color-primary);
-    animation: task-detail-spin 1s linear infinite;
-  }
-
   &__error {
     display: flex;
     align-items: flex-start;
@@ -219,11 +214,3 @@
   }
 }
 
-@keyframes task-detail-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

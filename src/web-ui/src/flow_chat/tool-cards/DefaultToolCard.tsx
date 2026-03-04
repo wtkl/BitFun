@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Loader2, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { Loader2, XCircle, Clock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { ToolCardProps } from '../types/flow-chat';
 
@@ -32,7 +32,7 @@ export const DefaultToolCard: React.FC<ToolCardProps> = ({
       case 'streaming':
         return <Loader2 className="animate-spin" size={12} />;
       case 'completed':
-        return <CheckCircle size={12} />;
+        return null;
       case 'cancelled':
         return <XCircle size={12} />;
       case 'error':

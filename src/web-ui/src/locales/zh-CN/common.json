@@ -100,6 +100,9 @@
       "newSession": "新建会话",
       "newCodeSession": "新建 Code 会话",
       "newCoworkSession": "新建 Cowork 会话",
+      "defaultModeIndicator": "（默认模式）",
+      "newCodeSessionDefault": "新建 Code 会话（默认模式）",
+      "newCoworkSessionDefault": "新建 Cowork 会话（默认模式）",
       "modeCode": "Code",
       "modeCowork": "Cowork",
       "noSessions": "暂无会话",
@@ -124,7 +127,8 @@
       "builtinTools": "内置工具",
       "mcpServices": "MCP 服务"
     },
-    "moreOptions": "更多选项"
+    "moreOptions": "更多选项",
+    "notifications": "通知"
   },
   "window": {
     "minimize": "最小化",

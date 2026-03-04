@@ -7,7 +7,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, Trash2, RefreshCw, FolderOpen, X, Package } from 'lucide-react';
-import { Switch, Select, Input, Button, IconButton, ConfirmDialog, Badge } from '@/component-library';
+import { Select, Input, Button, IconButton, ConfirmDialog, Badge } from '@/component-library';
 import { useCurrentWorkspace } from '@/infrastructure/hooks/useWorkspace';
 import { useNotification } from '@/shared/notification-system';
 import { configAPI } from '@/infrastructure/api';
@@ -119,20 +119,6 @@ const InstalledView: React.FC = () => {
     }
   };
 
-  const handleToggle = async (skill: SkillInfo) => {
-    const newEnabled = !skill.enabled;
-    try {
-      await configAPI.setSkillEnabled(skill.name, newEnabled);
-      notification.success(t('messages.toggleSuccess', {
-        name: skill.name,
-        status: newEnabled ? t('messages.enabled') : t('messages.disabled'),
-      }));
-      loadSkills();
-    } catch (err) {
-      notification.error(t('messages.toggleFailed', { error: err instanceof Error ? err.message : String(err) }));
-    }
-  };
-
   const handleBrowse = async () => {
     try {
       const selected = await open({ directory: true, multiple: false, title: t('form.path.label') });
@@ -223,7 +209,6 @@ const InstalledView: React.FC = () => {
               key={skill.name}
               className={[
                 'bitfun-market__list-item',
-                !skill.enabled && 'is-disabled',
                 isExpanded && 'is-expanded',
               ].filter(Boolean).join(' ')}
               style={{ '--item-index': index } as React.CSSProperties}
@@ -241,9 +226,6 @@ const InstalledView: React.FC = () => {
                     <Badge variant={skill.level === 'user' ? 'info' : 'purple'}>
                       {skill.level === 'user' ? t('list.item.user') : t('list.item.project')}
                     </Badge>
-                    {!skill.enabled && (
-                      <Badge variant="neutral">{t('messages.disabled')}</Badge>
-                    )}
                   </div>
                   <p className="bitfun-market__list-item-desc">
                     {skill.description?.trim() || '—'}
@@ -256,11 +238,6 @@ const InstalledView: React.FC = () => {
                   className="bitfun-market__list-item-action bitfun-installed__item-actions"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <Switch
-                    checked={skill.enabled}
-                    onChange={() => handleToggle(skill)}
-                    size="small"
-                  />
                   <button
                     type="button"
                     className="bitfun-installed__delete-btn"

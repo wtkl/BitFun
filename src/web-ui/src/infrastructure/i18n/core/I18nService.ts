@@ -45,6 +45,7 @@ import zhCNSettingsMcp from '../../../locales/zh-CN/settings/mcp.json';
 import zhCNSettingsMcpTools from '../../../locales/zh-CN/settings/mcp-tools.json';
 import zhCNSettingsTheme from '../../../locales/zh-CN/settings/theme.json';
 import zhCNSettingsAiFeatures from '../../../locales/zh-CN/settings/ai-features.json';
+import zhCNSettingsSessionConfig from '../../../locales/zh-CN/settings/session-config.json';
 import zhCNSettingsLsp from '../../../locales/zh-CN/settings/lsp.json';
 import zhCNSettingsTerminal from '../../../locales/zh-CN/settings/terminal.json';
 import zhCNSettingsDebug from '../../../locales/zh-CN/settings/debug.json';
@@ -83,6 +84,7 @@ import enUSSettingsMcp from '../../../locales/en-US/settings/mcp.json';
 import enUSSettingsMcpTools from '../../../locales/en-US/settings/mcp-tools.json';
 import enUSSettingsTheme from '../../../locales/en-US/settings/theme.json';
 import enUSSettingsAiFeatures from '../../../locales/en-US/settings/ai-features.json';
+import enUSSettingsSessionConfig from '../../../locales/en-US/settings/session-config.json';
 import enUSSettingsLsp from '../../../locales/en-US/settings/lsp.json';
 import enUSSettingsTerminal from '../../../locales/en-US/settings/terminal.json';
 import enUSSettingsDebug from '../../../locales/en-US/settings/debug.json';
@@ -128,6 +130,7 @@ const resources = {
     'settings/mcp-tools': zhCNSettingsMcpTools,
     'settings/theme': zhCNSettingsTheme,
     'settings/ai-features': zhCNSettingsAiFeatures,
+    'settings/session-config': zhCNSettingsSessionConfig,
     'settings/lsp': zhCNSettingsLsp,
     'settings/terminal': zhCNSettingsTerminal,
     'settings/debug': zhCNSettingsDebug,
@@ -167,6 +170,7 @@ const resources = {
     'settings/mcp-tools': enUSSettingsMcpTools,
     'settings/theme': enUSSettingsTheme,
     'settings/ai-features': enUSSettingsAiFeatures,
+    'settings/session-config': enUSSettingsSessionConfig,
     'settings/lsp': enUSSettingsLsp,
     'settings/terminal': enUSSettingsTerminal,
     'settings/debug': enUSSettingsDebug,

@@ -8,8 +8,7 @@
 export type ConfigTab =
   | 'theme'
   | 'models'
-  | 'agents'
-  | 'ai-features'
+  | 'session-config'
   | 'ai-context'
   | 'prompt-templates'
   | 'mcp-tools'
@@ -43,9 +42,8 @@ export const SETTINGS_CATEGORIES: ConfigCategoryDef[] = [
     id: 'smartCapabilities',
     nameKey: 'configCenter.categories.smartCapabilities',
     tabs: [
-      { id: 'ai-features',       labelKey: 'configCenter.tabs.aiFeatures'      },
+      { id: 'session-config',    labelKey: 'configCenter.tabs.sessionConfig'   },
       { id: 'prompt-templates',  labelKey: 'configCenter.tabs.promptTemplates' },
-      { id: 'agents',            labelKey: 'configCenter.tabs.agents'          },
       { id: 'ai-context',        labelKey: 'configCenter.tabs.aiContext'       },
       { id: 'mcp-tools',         labelKey: 'configCenter.tabs.mcpTools'        },
     ],

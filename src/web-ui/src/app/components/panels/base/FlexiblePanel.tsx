@@ -706,6 +706,7 @@ const FlexiblePanel: React.FC<ExtendedFlexiblePanelProps> = memo(({
           <React.Suspense fallback={<div className="bitfun-flexible-panel__loading">{t('flexiblePanel.loading.terminal')}</div>}>
             <div className="bitfun-flexible-panel__terminal-container">
               <TerminalTabPanel
+                key={sessionId}
                 sessionId={sessionId}
                 autoFocus={true}
               />

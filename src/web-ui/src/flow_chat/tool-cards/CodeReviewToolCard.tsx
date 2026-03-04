@@ -59,7 +59,7 @@ export const CodeReviewToolCard: React.FC<ToolCardProps> = React.memo(({
       case 'streaming':
         return <Loader2 className="animate-spin" size={12} />;
       case 'completed':
-        return <CheckCircle size={12} />;
+        return null;
       case 'pending':
       default:
         return <Clock size={12} />;

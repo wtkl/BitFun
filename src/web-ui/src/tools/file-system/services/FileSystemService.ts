@@ -72,6 +72,13 @@ class FileSystemService implements IFileSystemService {
     let unlisten: UnlistenFn | null = null;
     let isActive = true;
 
+    // Normalize separators and trailing slash for robust cross-platform comparison.
+    // Case is preserved intentionally: paths are case-sensitive.
+    const normalizeForCompare = (p: string) =>
+      p.replace(/\\/g, '/').replace(/\/+$/, '');
+
+    const normalizedRoot = normalizeForCompare(rootPath);
+
     const initWatcher = async () => {
       try {
         unlisten = await listen<FileWatchEvent[]>('file-system-changed', (event) => {
@@ -80,7 +87,8 @@ class FileSystemService implements IFileSystemService {
           const events = event.payload;
 
           events.forEach((fileEvent) => {
-            if (!fileEvent.path.startsWith(rootPath)) {
+            const normalizedEventPath = normalizeForCompare(fileEvent.path);
+            if (!normalizedEventPath.startsWith(normalizedRoot)) {
               return;
             }
 

@@ -96,7 +96,7 @@ export const DiffEditor: React.FC<DiffEditorProps> = ({
     line_height: 1.5,
     tab_size: 2,
     insert_spaces: true,
-    word_wrap: 'on',
+    word_wrap: 'off',
     line_numbers: 'on',
     minimap: { enabled: showMinimap, side: 'right', size: 'proportional' }
   });
@@ -227,7 +227,7 @@ export const DiffEditor: React.FC<DiffEditorProps> = ({
           
           ignoreTrimWhitespace: false,
           renderWhitespace: 'selection',
-          diffWordWrap: (editorConfig.word_wrap as any) || 'on',
+          diffWordWrap: (editorConfig.word_wrap as any) || 'off',
           diffAlgorithm: 'advanced',
           
           hideUnchangedRegions: {

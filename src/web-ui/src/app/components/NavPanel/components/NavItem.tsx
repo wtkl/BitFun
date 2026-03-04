@@ -63,7 +63,7 @@ const NavItem: React.FC<NavItemProps> = ({
     onActionClick?.();
   };
 
-  const button = (
+  return (
     <button
       type="button"
       className={[
@@ -123,14 +123,6 @@ const NavItem: React.FC<NavItemProps> = ({
         )
       )}
     </button>
-  );
-
-  const tooltipText = tooltipContent || displayLabel;
-
-  return (
-    <Tooltip content={tooltipText} placement="right" followCursor>
-      {button}
-    </Tooltip>
   );
 };
 

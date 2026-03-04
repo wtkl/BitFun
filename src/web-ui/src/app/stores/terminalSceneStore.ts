@@ -22,3 +22,14 @@ export const useTerminalSceneStore = create<TerminalSceneState>(set => ({
   activeSessionId: null,
   setActiveSession: sessionId => set({ activeSessionId: sessionId }),
 }));
+
+// Listen for terminal session destroyed events to clear activeSessionId
+if (typeof window !== 'undefined') {
+  window.addEventListener('terminal-session-destroyed', ((event: CustomEvent<{ sessionId: string }>) => {
+    const { sessionId } = event.detail ?? {};
+    const state = useTerminalSceneStore.getState();
+    if (sessionId && state.activeSessionId === sessionId) {
+      state.setActiveSession(null);
+    }
+  }) as EventListener);
+}

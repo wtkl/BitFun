@@ -58,26 +58,20 @@ const ConnectedTerminal: React.FC<ConnectedTerminalProps> = memo(({
       outputQueueRef.current.push(data);
       return;
     }
-
     terminalRef.current.write(data);
   }, [isTerminalReady]);
 
   const flushOutputQueue = useCallback(() => {
     const queue = outputQueueRef.current;
     if (queue.length === 0) return;
-
-    queue.forEach(data => {
-      terminalRef.current?.write(data);
-    });
-
+    queue.forEach(data => terminalRef.current?.write(data));
     outputQueueRef.current = [];
   }, []);
 
   const handleReady = useCallback(() => {
-    setIsTerminalReady(true);
-
-    flushOutputQueue();
-  }, [sessionId, flushOutputQueue]);
+    // Backend ready event - terminal UI is already ready via handleTerminalReady
+    // No need to flush queue again here
+  }, []);
 
   const handleExit = useCallback((code?: number) => {
     setExitCode(code ?? null);
@@ -135,6 +129,7 @@ const ConnectedTerminal: React.FC<ConnectedTerminalProps> = memo(({
   }, [onTitleChange]);
 
   const handleTerminalReady = useCallback(() => {
+    console.log('[ConnectedTerminal] handleTerminalReady called');
     setIsTerminalReady(true);
 
     flushOutputQueue();

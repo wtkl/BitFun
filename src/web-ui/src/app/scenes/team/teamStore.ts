@@ -335,7 +335,7 @@ export function computeTeamCapabilities(
 
 // ─── Scene page ───────────────────────────────────────────────────────────────
 
-export type TeamScenePage = 'agentsOverview' | 'expertTeamsOverview' | 'editor';
+export type TeamScenePage = 'agentsOverview' | 'expertTeamsOverview' | 'editor' | 'createAgent';
 export type HomeFilter = 'all' | 'agent' | 'team';
 
 // ─── Store ────────────────────────────────────────────────────────────────────
@@ -349,6 +349,7 @@ interface TeamStoreState {
   openAgentsOverview: () => void;
   openExpertTeamsOverview: () => void;
   openTeamEditor: (teamId: string) => void;
+  openCreateAgent: () => void;
   agentSoloEnabled: Record<string, boolean>;
   setAgentSoloEnabled: (agentId: string, enabled: boolean) => void;
 
@@ -374,6 +375,7 @@ export const useTeamStore = create<TeamStoreState>((set) => ({
   openAgentsOverview: () => set({ page: 'agentsOverview' }),
   openExpertTeamsOverview: () => set({ page: 'expertTeamsOverview' }),
   openTeamEditor: (teamId) => set({ page: 'editor', activeTeamId: teamId }),
+  openCreateAgent: () => set({ page: 'createAgent' }),
   agentSoloEnabled: {},
   setAgentSoloEnabled: (agentId, enabled) =>
     set((s) => ({

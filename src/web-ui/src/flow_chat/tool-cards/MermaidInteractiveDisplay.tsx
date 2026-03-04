@@ -3,7 +3,7 @@
  */
 
 import React, { useCallback } from 'react';
-import { CheckCircle, Eye, Network } from 'lucide-react';
+import { Eye, Network } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CubeLoading } from '../../component-library';
 import type { ToolCardProps, FlowToolItem } from '../types/flow-chat';
@@ -177,9 +177,6 @@ export const MermaidInteractiveDisplay: React.FC<ToolCardProps> = ({
   const renderStatusIcon = () => {
     if (isLoading) {
       return <CubeLoading size="small" />;
-    }
-    if (status === 'completed') {
-      return <CheckCircle className="icon-completed" size={14} />;
     }
     return null;
   };

@@ -126,6 +126,10 @@
 .compact-tool-card.status-completed {
   .compact-card-status-icon {
     color: var(--color-text-muted);
+
+    .icon-check-done {
+      color: var(--color-success);
+    }
   }
 }
 

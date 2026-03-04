@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useCallback, useMemo } from 'react';
-import { CheckCircle, Loader2, AlertCircle, Send, ChevronDown, ChevronRight } from 'lucide-react';
+import { Loader2, AlertCircle, Send, ChevronDown, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { ToolCardProps } from '../types/flow-chat';
 import { toolAPI } from '@/infrastructure/api/service-api/ToolAPI';
@@ -130,7 +130,7 @@ export const AskUserQuestionCard: React.FC<ToolCardProps> = ({
 
   const getStatusIcon = () => {
     if (status === 'completed') {
-      return <CheckCircle size={16} className="status-icon-completed" />;
+      return null;
     }
     if (isSubmitting) {
       return <Loader2 size={16} className="status-icon-loading animate-spin" />;

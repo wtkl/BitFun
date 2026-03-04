@@ -170,12 +170,36 @@
           "default": true
         },
         {
-          "type": "switch",
-          "dataType": "boolean",
+          "type": "select",
+          "dataType": "string",
           "key": "wordWrap",
           "title": "自动换行",
-          "description": "长行文本自动换行显示",
-          "default": true
+          "description": "长行文本超出编辑器宽度时的换行方式",
+          "default": "off",
+          "ui": {
+            "options": [
+              {
+                "value": "off",
+                "label": "关闭",
+                "description": "不自动换行，长行可横向滚动"
+              },
+              {
+                "value": "on",
+                "label": "开启",
+                "description": "超出编辑器宽度时自动换行"
+              },
+              {
+                "value": "wordWrapColumn",
+                "label": "按列数换行",
+                "description": "超出指定列数时换行"
+              },
+              {
+                "value": "bounded",
+                "label": "自适应换行",
+                "description": "取编辑器宽度与换行列数的较小值进行换行"
+              }
+            ]
+          }
         },
         {
           "type": "select",

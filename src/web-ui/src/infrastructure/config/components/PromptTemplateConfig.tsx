@@ -212,7 +212,6 @@ export const PromptTemplateConfig: React.FC = () => {
         >
           {sortedTemplates.length === 0 && (
             <div className="bitfun-collection-empty">
-              <p>{t('empty.createFirst')}</p>
               <Button variant="dashed" size="small" onClick={handleCreateTemplate}>
                 <Plus size={14} />
                 {t('toolbar.createTooltip')}

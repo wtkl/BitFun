@@ -167,33 +167,38 @@ impl FileWatcher {
         let config = self.config.clone();
         let watched_paths = self.watched_paths.clone();
 
-        tokio::spawn(async move {
-            let mut last_flush = std::time::Instant::now();
+        // Run on a dedicated blocking thread to avoid starving the async runtime.
+        // True debounce: accumulate events, then flush once the stream goes quiet for
+        // `debounce_interval_ms`. A 50 ms poll interval keeps latency low even for
+        // single-event bursts (e.g. one `fs::write` from an agentic tool).
+        tokio::task::spawn_blocking(move || {
+            let rt = tokio::runtime::Handle::current();
+            let debounce = std::time::Duration::from_millis(config.debounce_interval_ms);
+            let poll = std::time::Duration::from_millis(50);
+            let mut last_event_time: Option<std::time::Instant> = None;
 
-            while let Ok(event) = rx.recv() {
-                match event {
-                    Ok(event) => {
-                        if Self::should_ignore_event(&event, &watched_paths).await {
-                            continue;
-                        }
-
-                        if let Some(file_event) = Self::convert_event(&event) {
-                            {
-                                let mut buffer = lock_event_buffer(&event_buffer);
-                                buffer.push(file_event);
-                            }
-
-                            let now = std::time::Instant::now();
-                            if now.duration_since(last_flush).as_millis() as u64
-                                >= config.debounce_interval_ms
-                            {
-                                Self::flush_events_static(&event_buffer, &emitter_arc).await;
-                                last_flush = now;
+            loop {
+                match rx.recv_timeout(poll) {
+                    Ok(Ok(event)) => {
+                        let ignore =
+                            rt.block_on(Self::should_ignore_event(&event, &watched_paths));
+                        if !ignore {
+                            if let Some(file_event) = Self::convert_event(&event) {
+                                lock_event_buffer(&event_buffer).push(file_event);
+                                last_event_time = Some(std::time::Instant::now());
                             }
                         }
                     }
-                    Err(e) => {
-                        eprintln!("Watch error: {:?}", e);
+                    Ok(Err(e)) => eprintln!("Watch error: {:?}", e),
+                    Err(std::sync::mpsc::RecvTimeoutError::Timeout) => {}
+                    Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => break,
+                }
+
+                // Flush only after events have been quiet for the debounce window.
+                if let Some(t) = last_event_time {
+                    if t.elapsed() >= debounce {
+                        rt.block_on(Self::flush_events_static(&event_buffer, &emitter_arc));
+                        last_event_time = None;
                     }
                 }
             }

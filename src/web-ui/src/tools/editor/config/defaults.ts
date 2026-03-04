@@ -20,9 +20,9 @@ export const DEFAULT_GUIDES_CONFIG: GuidesConfig = {
 
 export const DEFAULT_SCROLLBAR_CONFIG: ScrollbarConfig = {
   vertical: 'auto',
-  horizontal: 'auto',
+  horizontal: 'visible',
   verticalScrollbarSize: 10,
-  horizontalScrollbarSize: 10,
+  horizontalScrollbarSize: 12,
   useShadows: false,
 };
 
@@ -68,7 +68,7 @@ export const DEFAULT_EDITOR_CONFIG: EditorConfig = {
   // Behavior
   tabSize: 2,
   insertSpaces: true,
-  wordWrap: 'on',
+  wordWrap: 'off',
   autoSave: 'afterDelay',
   autoSaveDelay: 1000,
   scrollBeyondLastLine: false,

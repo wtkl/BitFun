@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import { Loader2, CheckCircle, Settings, Clock } from 'lucide-react';
+import { Loader2, Settings, Clock, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { ToolCardProps } from '../types/flow-chat';
 import { CompactToolCard, CompactToolCardHeader } from './CompactToolCard';
@@ -25,7 +25,7 @@ export const IdeControlToolCard: React.FC<ToolCardProps> = ({
       case 'streaming':
         return <Loader2 className="animate-spin" size={12} />;
       case 'completed':
-        return <CheckCircle size={12} />;
+        return <Check size={12} className="icon-check-done" />;
       case 'pending':
       default:
         return <Clock size={12} />;

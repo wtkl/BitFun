@@ -53,6 +53,9 @@ interface CanvasStoreActions {
 
   /** Close and remove tab by terminal sessionId (sync when left panel closes terminal) */
   closeTerminalTabBySessionId: (sessionId: string) => void;
+
+  /** Rename terminal tab by sessionId (sync when left panel renames terminal) */
+  renameTerminalTabBySessionId: (sessionId: string, newName: string) => void;
   
   /** Close all tabs */
   closeAllTabs: (groupId?: EditorGroupId) => void;
@@ -456,6 +459,22 @@ const createCanvasStoreHook = () => create<CanvasStore>()(
         const result = state.findTabByMetadata({ sessionId });
         if (!result || result.tab.content.type !== 'terminal') return;
         state.closeTab(result.tab.id, result.groupId, { forceRemove: true });
+      },
+
+      renameTerminalTabBySessionId: (sessionId, newName) => {
+        const result = get().findTabByMetadata({ sessionId });
+        if (!result || result.tab.content.type !== 'terminal') return;
+        
+        set((draft) => {
+          const group = getGroup(draft, result.groupId);
+          const tab = group.tabs.find(t => t.id === result.tab.id);
+          if (tab) {
+            const displayTitle = newName.length > 20 ? `${newName.slice(0, 20)}...` : newName;
+            tab.title = displayTitle;
+            tab.content.title = displayTitle;
+            tab.content.data = { ...tab.content.data, sessionName: newName };
+          }
+        });
       },
       
       closeAllTabs: (groupId) => {

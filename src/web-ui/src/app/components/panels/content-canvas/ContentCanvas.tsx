@@ -49,7 +49,7 @@ export const ContentCanvas: React.FC<ContentCanvasProps> = ({
   const { handleCloseWithDirtyCheck, handleCloseAllWithDirtyCheck } = useTabLifecycle({ mode });
   useKeyboardShortcuts({ enabled: true, handleCloseWithDirtyCheck });
   // Panel/tab state coordinator (auto manage expand/collapse)
-  usePanelTabCoordinator({
+  const { collapsePanel } = usePanelTabCoordinator({
     autoCollapseOnEmpty: true,
     autoExpandOnTabOpen: true,
   });
@@ -89,7 +89,7 @@ export const ContentCanvas: React.FC<ContentCanvasProps> = ({
   const renderContent = () => {
     // Show empty state when primary group has no visible tabs
     if (!hasPrimaryVisibleTabs) {
-      return <EmptyState />;
+      return <EmptyState onClose={collapsePanel} />;
     }
 
     return (

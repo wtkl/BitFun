@@ -54,7 +54,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   minimap = true,
   height = '500px',
   width = '100%',
-  wordWrap = 'on',
+  wordWrap = 'off',
   fontSize = 16,
   tabSize = 2,
   onChange,

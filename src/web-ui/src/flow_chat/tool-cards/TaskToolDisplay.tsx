@@ -8,7 +8,6 @@ import {
   ChevronUp,
   Split,
   Timer,
-  CheckCircle,
   PanelRightOpen
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -159,9 +158,6 @@ export const TaskToolDisplay: React.FC<ToolCardProps> = ({
   const renderStatusIcon = () => {
     if (isRunning) {
       return <CubeLoading size="small" />;
-    }
-    if (status === 'completed' && !isFailed) {
-      return <CheckCircle className="icon-completed" size={14} />;
     }
     return null;
   };

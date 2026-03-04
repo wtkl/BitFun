@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import { ChevronDown, ChevronUp, Package, CheckCircle, Check, X } from 'lucide-react';
+import { ChevronDown, ChevronUp, Package, Check, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CubeLoading, IconButton } from '../../component-library';
 import type { ToolCardProps } from '../types/flow-chat';
@@ -570,9 +570,6 @@ export const MCPToolDisplay: React.FC<ToolCardProps> = ({
   const renderStatusIcon = () => {
     if (isLoading) {
       return <CubeLoading size="small" />;
-    }
-    if (status === 'completed' && !isFailed) {
-      return <CheckCircle className="icon-completed" size={14} />;
     }
     return null;
   };

@@ -5,7 +5,7 @@
  * AI Agent tab shows the current session title as a subtitle.
  */
 
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import SceneTab from './SceneTab';
 import { WindowControls } from '@/component-library';
 import { useSceneManager } from '../../hooks/useSceneManager';
@@ -13,8 +13,11 @@ import { useCurrentSessionTitle } from '../../hooks/useCurrentSessionTitle';
 import { useCurrentSettingsTabTitle } from '../../hooks/useCurrentSettingsTabTitle';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { flowChatManager } from '@/flow_chat/services/FlowChatManager';
+import { configManager } from '@/infrastructure/config/services/ConfigManager';
 import { createLogger } from '@/shared/utils/logger';
 import './SceneBar.scss';
+
+const DEFAULT_MODE_CONFIG_KEY = 'app.session_config.default_mode';
 
 const log = createLogger('SceneBar');
 
@@ -40,6 +43,20 @@ const SceneBar: React.FC<SceneBarProps> = ({
   const sessionTitle = useCurrentSessionTitle();
   const settingsTabTitle = useCurrentSettingsTabTitle();
   const { t } = useI18n('common');
+  const [defaultMode, setDefaultMode] = useState<'code' | 'cowork'>('code');
+
+  useEffect(() => {
+    configManager.getConfig<'code' | 'cowork'>(DEFAULT_MODE_CONFIG_KEY).then(mode => {
+      if (mode === 'code' || mode === 'cowork') setDefaultMode(mode);
+    }).catch(() => {});
+    const unwatch = configManager.watch(DEFAULT_MODE_CONFIG_KEY, () => {
+      configManager.getConfig<'code' | 'cowork'>(DEFAULT_MODE_CONFIG_KEY).then(mode => {
+        if (mode === 'code' || mode === 'cowork') setDefaultMode(mode);
+      }).catch(() => {});
+    });
+    return () => unwatch();
+  }, []);
+
   const hasWindowControls = !!(onMinimize && onMaximize && onClose);
   const sceneBarClassName = `bitfun-scene-bar ${!hasWindowControls ? 'bitfun-scene-bar--no-controls' : ''} ${className}`.trim();
   const isSingleTab = openTabs.length <= 1;
@@ -105,6 +122,7 @@ const SceneBar: React.FC<SceneBarProps> = ({
           const subtitle =
             (tab.id === 'session' && sessionTitle ? sessionTitle : undefined)
             ?? (tab.id === 'settings' && settingsTabTitle ? settingsTabTitle : undefined);
+          const actionTitle = tab.id === 'session' ? (defaultMode === 'cowork' ? t('nav.sessions.newCoworkSession') : t('nav.sessions.newCodeSession')) : undefined;
           return (
             <SceneTab
               key={tab.id}
@@ -113,7 +131,7 @@ const SceneBar: React.FC<SceneBarProps> = ({
               isActive={tab.id === activeTabId}
               subtitle={subtitle}
               onActionClick={tab.id === 'session' ? handleCreateSession : undefined}
-              actionTitle={tab.id === 'session' ? t('nav.sections.sessions.newSession') : undefined}
+              actionTitle={actionTitle}
               onActivate={activateScene}
               onClose={closeScene}
             />

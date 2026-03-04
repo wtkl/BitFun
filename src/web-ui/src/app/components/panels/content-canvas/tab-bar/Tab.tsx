@@ -4,7 +4,7 @@
  */
 
 import React, { useCallback, useState } from 'react';
-import { X, Pin } from 'lucide-react';
+import { X, Pin, Split } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from '@/component-library';
 import type { CanvasTab, EditorGroupId, TabState } from '../types';
@@ -110,6 +110,8 @@ export const Tab: React.FC<TabProps> = ({
     e.preventDefault();
   }, []);
 
+  const isTaskDetail = tab.content.type === 'task-detail';
+
   // Build class names
   const classNames = [
     'canvas-tab',
@@ -117,6 +119,7 @@ export const Tab: React.FC<TabProps> = ({
     tab.isDirty && 'is-dirty',
     isDragging && 'is-dragging',
     getStateClassName(tab.state),
+    isTaskDetail && 'is-task-detail',
   ].filter(Boolean).join(' ');
 
   // Show close button only while hovering to avoid reserving layout space.
@@ -145,6 +148,11 @@ export const Tab: React.FC<TabProps> = ({
               <Pin size={12} />
             </button>
           </Tooltip>
+        )}
+
+        {/* Task-detail type icon */}
+        {isTaskDetail && (
+          <Split size={12} className="canvas-tab__type-icon" aria-hidden />
         )}
 
         {/* Title */}

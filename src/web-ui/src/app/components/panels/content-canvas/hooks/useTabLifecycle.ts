@@ -9,7 +9,7 @@
  */
 
 import { useCallback, useEffect } from 'react';
-import { useCanvasStore } from '../stores';
+import { useCanvasStore, useAgentCanvasStore, useProjectCanvasStore, useGitCanvasStore } from '../stores';
 import type { EditorGroupId, PanelContent, CreateTabEventDetail } from '../types';
 import { TAB_EVENTS } from '../types';
 import { createLogger } from '@/shared/utils/logger';
@@ -185,17 +185,41 @@ export const useTabLifecycle = (options: UseTabLifecycleOptions = {}): UseTabLif
    * Listen for left-panel terminal close events to sync right-panel tabs.
    */
   useEffect(() => {
+    const store = mode === 'project' ? useProjectCanvasStore 
+                : mode === 'git' ? useGitCanvasStore 
+                : useAgentCanvasStore;
+    
     const handleTerminalSessionDestroyed = (event: CustomEvent<{ sessionId: string }>) => {
       const { sessionId } = event.detail ?? {};
       if (sessionId) {
-        useCanvasStore.getState().closeTerminalTabBySessionId(sessionId);
+        store.getState().closeTerminalTabBySessionId(sessionId);
       }
     };
     window.addEventListener('terminal-session-destroyed', handleTerminalSessionDestroyed as EventListener);
     return () => {
       window.removeEventListener('terminal-session-destroyed', handleTerminalSessionDestroyed as EventListener);
     };
-  }, []);
+  }, [mode]);
+
+  /**
+   * Listen for left-panel terminal rename events to sync right-panel tabs.
+   */
+  useEffect(() => {
+    const store = mode === 'project' ? useProjectCanvasStore 
+                : mode === 'git' ? useGitCanvasStore 
+                : useAgentCanvasStore;
+    
+    const handleTerminalSessionRenamed = (event: CustomEvent<{ sessionId: string; newName: string }>) => {
+      const { sessionId, newName } = event.detail ?? {};
+      if (sessionId && newName) {
+        store.getState().renameTerminalTabBySessionId(sessionId, newName);
+      }
+    };
+    window.addEventListener('terminal-session-renamed', handleTerminalSessionRenamed as EventListener);
+    return () => {
+      window.removeEventListener('terminal-session-renamed', handleTerminalSessionRenamed as EventListener);
+    };
+  }, [mode]);
 
   /**
    * Listen for external tab creation events.

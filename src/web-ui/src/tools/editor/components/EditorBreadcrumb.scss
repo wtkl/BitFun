@@ -9,8 +9,6 @@
 $_breadcrumb-height: 24px;
 $_dropdown-max-height: 300px;
 $_dropdown-width: 220px;
-$_hover-bg: rgba(255, 255, 255, 0.06);
-$_active-bg: rgba(255, 255, 255, 0.1);
 
 // Breadcrumb Navigation
 .editor-breadcrumb {
@@ -66,7 +64,7 @@ $_active-bg: rgba(255, 255, 255, 0.1);
     }
     
     &--file .editor-breadcrumb__item-icon {
-      color: $color-accent-500;
+      color: var(--color-accent-500);
     }
     
     &--clickable {
@@ -87,10 +85,10 @@ $_active-bg: rgba(255, 255, 255, 0.1);
 .editor-breadcrumb-dropdown {
   width: $_dropdown-width;
   max-height: $_dropdown-max-height;
-  background: $color-bg-elevated;
+  background: var(--color-bg-elevated);
   border: 1px solid var(--color-border-subtle);
   border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-base);
   z-index: 10000;
   overflow: hidden;
   animation: breadcrumb-dropdown-in 0.12s ease-out;
@@ -101,7 +99,7 @@ $_active-bg: rgba(255, 255, 255, 0.1);
     gap: $size-gap-2;
     padding: 6px 8px;
     border-bottom: 1px solid var(--color-border-subtle);
-    background: $color-bg-tertiary;
+    background: var(--color-bg-tertiary);
   }
   
   &__back {
@@ -119,12 +117,12 @@ $_active-bg: rgba(255, 255, 255, 0.1);
     transition: background-color 0.15s ease, color 0.15s ease;
     
     &:hover {
-      background-color: $_hover-bg;
+      background-color: var(--element-bg-subtle);
       color: var(--color-text-primary);
     }
     
     &:active {
-      background-color: $_active-bg;
+      background-color: var(--element-bg-base);
     }
   }
   
@@ -177,23 +175,23 @@ $_active-bg: rgba(255, 255, 255, 0.1);
     transition: background-color 0.1s ease;
     
     &:hover {
-      background-color: $_hover-bg;
+      background-color: var(--element-bg-subtle);
     }
     
     &:active {
-      background-color: $_active-bg;
+      background-color: var(--element-bg-base);
     }
     
     &--current {
-      background-color: $color-accent-100;
+      background-color: var(--color-accent-100);
       
       .editor-breadcrumb-dropdown__item-name {
-        color: $color-accent-500;
+        color: var(--color-accent-500);
         font-weight: 500;
       }
       
       &:hover {
-        background-color: $color-accent-200;
+        background-color: var(--color-accent-200);
       }
     }
     

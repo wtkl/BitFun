@@ -147,7 +147,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     line_height: 1.5,
     tab_size: 2,
     insert_spaces: true,
-    word_wrap: 'on',
+    word_wrap: 'off',
     line_numbers: 'on',
     minimap: { enabled: showMinimap, side: 'right', size: 'proportional' }
   });
@@ -238,7 +238,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
             : 0,
           tabSize,
           insertSpaces,
-          wordWrap: (config.word_wrap as any) || 'on',
+          wordWrap: (config.word_wrap as any) || 'off',
           lineNumbers: config.line_numbers as any || 'on',
           minimap: { 
             enabled: showMinimap,
@@ -387,7 +387,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
           fontWeight: createFontWeight,
           lineHeight: createLineHeight || (editorConfig.line_height ? Math.round(createFontSize * editorConfig.line_height) : 0),
           scrollBeyondLastLine: false,
-          wordWrap: (editorConfig.word_wrap as any) || 'on',
+          wordWrap: (editorConfig.word_wrap as any) || 'off',
           tabSize: editorConfig.tab_size || 2,
           insertSpaces: editorConfig.insert_spaces !== undefined ? editorConfig.insert_spaces : true,
           contextmenu: false,

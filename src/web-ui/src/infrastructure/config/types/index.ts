@@ -201,6 +201,7 @@ export interface ModeConfigItem {
   available_tools: string[];  
   enabled: boolean;  
   default_tools: string[];  
+  available_skills?: string[];  
 }
 
 

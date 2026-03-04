@@ -7,6 +7,8 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { Bell, BellDot } from 'lucide-react';
+import { Tooltip } from '@/component-library';
+import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import {
   useUnreadCount,
   useLatestTaskNotification,
@@ -19,6 +21,7 @@ interface NotificationButtonProps {
 }
 
 const NotificationButton: React.FC<NotificationButtonProps> = ({ className = '' }) => {
+  const { t } = useI18n('common');
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [tooltipOffset, setTooltipOffset] = useState(0);
 
@@ -41,6 +44,7 @@ const NotificationButton: React.FC<NotificationButtonProps> = ({ className = '' 
   }, [activeNotification]);
 
   return (
+    <Tooltip content={t('nav.notifications')} placement="right" disabled={!!activeNotification}>
     <button
       ref={buttonRef}
       className={[
@@ -50,7 +54,6 @@ const NotificationButton: React.FC<NotificationButtonProps> = ({ className = '' 
         className,
       ].filter(Boolean).join(' ')}
       onClick={() => notificationService.toggleCenter()}
-      title="Notifications"
       type="button"
     >
       {activeNotification ? (
@@ -112,6 +115,7 @@ const NotificationButton: React.FC<NotificationButtonProps> = ({ className = '' 
           : <Bell size={14} />
       )}
     </button>
+    </Tooltip>
   );
 };
 

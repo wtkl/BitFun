@@ -15,7 +15,7 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ToolCardProps } from '../types/flow-chat';
-import { Terminal, Play, X, ExternalLink, Square, ChevronDown, ChevronUp, CheckCircle } from 'lucide-react';
+import { Terminal, Play, X, ExternalLink, Square, ChevronDown, ChevronUp } from 'lucide-react';
 import { createTerminalTab } from '@/shared/utils/tabUtils';
 import { BaseToolCard, ToolCardHeader } from './BaseToolCard';
 import { CubeLoading, IconButton, Input } from '../../component-library';
@@ -294,9 +294,6 @@ export const TerminalToolCard: React.FC<TerminalToolCardProps> = ({
   const renderStatusIcon = () => {
     if (isLoading) {
       return <CubeLoading size="small" />;
-    }
-    if (status === 'completed' && !isFailed) {
-      return <CheckCircle className="icon-completed" size={14} />;
     }
     return null;
   };

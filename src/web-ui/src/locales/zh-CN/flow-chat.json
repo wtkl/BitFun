@@ -38,6 +38,8 @@
   },
   "session": {
     "new": "新建会话",
+    "newCode": "新建 Code 会话",
+    "newCowork": "新建 Cowork 会话",
     "newWithIndex": "新建会话 {{count}}",
     "newCodeWithIndex": "新建 Code 会话 {{count}}",
     "newCoworkWithIndex": "新建 Cowork 会话 {{count}}",

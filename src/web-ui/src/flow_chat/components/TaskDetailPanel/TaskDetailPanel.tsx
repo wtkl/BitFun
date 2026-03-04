@@ -8,15 +8,14 @@ import { useTranslation } from 'react-i18next';
 import { 
   Split,
   Clock,
-  AlertCircle,
-  Loader2
+  AlertCircle
 } from 'lucide-react';
 import type { FlowToolItem, FlowTextItem, FlowThinkingItem, FlowItem } from '../../types/flow-chat';
 import { FlowChatStore } from '../../store/FlowChatStore';
 import { FlowTextBlock } from '../FlowTextBlock';
 import { FlowToolCard } from '../FlowToolCard';
 import { ModelThinkingDisplay } from '../../tool-cards/ModelThinkingDisplay';
-import { Tooltip } from '@/component-library';
+import { Tooltip, CubeLoading } from '@/component-library';
 import { createLogger } from '@/shared/utils/logger';
 import './TaskDetailPanel.scss';
 
@@ -242,7 +241,9 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({ data }) => {
           </span>
         )}
         {isRunning && (
-          <Loader2 size={14} className="task-detail-panel__header-loading" />
+          <span className="task-detail-panel__header-loading">
+            <CubeLoading size="small" />
+          </span>
         )}
         {isFailed && (
           <Tooltip content={getErrorMessage()} placement="bottom">
@@ -270,7 +271,7 @@ export const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({ data }) => {
 
         {isRunning && subagentItems.length === 0 && (
           <div className="task-detail-panel__loading">
-            <Loader2 size={20} className="task-detail-panel__loading-icon" />
+            <CubeLoading size="medium" />
             <span>{t('toolCards.taskDetailPanel.status.running')}</span>
           </div>
         )}

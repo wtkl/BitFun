@@ -34,13 +34,12 @@
     }
   }
   
-  // Hover effect
-  &:hover {
-    .monaco-editor {
-      .margin,
-      .monaco-scrollable-element {
-        opacity: 1;
-      }
+  // Keep editor elements always fully visible so the horizontal scrollbar
+  // remains interactive even when the mouse moves to the bottom edge.
+  .monaco-editor {
+    .margin,
+    .monaco-scrollable-element {
+      opacity: 1;
     }
   }
   

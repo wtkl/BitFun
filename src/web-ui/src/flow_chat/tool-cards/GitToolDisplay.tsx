@@ -4,7 +4,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronDown, ChevronUp, GitBranch, CheckCircle, Check, X, AlertTriangle } from 'lucide-react';
+import { ChevronDown, ChevronUp, GitBranch, Check, X, AlertTriangle } from 'lucide-react';
 import { CubeLoading, IconButton } from '../../component-library';
 import type { ToolCardProps } from '../types/flow-chat';
 import { BaseToolCard, ToolCardHeader } from './BaseToolCard';
@@ -174,11 +174,8 @@ export const GitToolDisplay: React.FC<ToolCardProps> = ({
     if (isLoading) {
       return <CubeLoading size="small" />;
     }
-    if (status === 'completed' && !isFailed) {
-      if (hasWarning) {
-        return <AlertTriangle className="icon-warning" size={14} />;
-      }
-      return <CheckCircle className="icon-completed" size={14} />;
+    if (status === 'completed' && !isFailed && hasWarning) {
+      return <AlertTriangle className="icon-warning" size={14} />;
     }
     return null;
   };

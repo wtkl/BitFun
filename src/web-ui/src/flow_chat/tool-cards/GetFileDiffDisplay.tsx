@@ -3,7 +3,7 @@
  */
 
 import React, { useMemo, useState, useCallback } from 'react';
-import { CheckCircle, ChevronDown, ChevronUp, GitCompare } from 'lucide-react';
+import { ChevronDown, ChevronUp, GitCompare } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CubeLoading } from '../../component-library';
 import type { ToolCardProps } from '../types/flow-chat';
@@ -55,9 +55,6 @@ export const GetFileDiffDisplay: React.FC<ToolCardProps> = React.memo(({
   const renderStatusIcon = () => {
     if (status === 'running' || status === 'streaming' || status === 'preparing') {
       return <CubeLoading size="small" />;
-    }
-    if (status === 'completed') {
-      return <CheckCircle className="icon-completed" size={14} />;
     }
     return null;
   };

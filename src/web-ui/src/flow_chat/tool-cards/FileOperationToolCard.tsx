@@ -5,7 +5,7 @@
 
 import React, { useEffect, useCallback, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CheckCircle, XCircle, GitBranch, FileText, ChevronDown, ChevronUp, FileEdit, FilePlus, Trash2 } from 'lucide-react';
+import { XCircle, GitBranch, FileText, ChevronDown, ChevronUp, FileEdit, FilePlus, Trash2 } from 'lucide-react';
 import { CubeLoading } from '../../component-library';
 import type { ToolCardProps } from '../types/flow-chat';
 import { BaseToolCard, ToolCardHeader } from './BaseToolCard';
@@ -323,9 +323,6 @@ export const FileOperationToolCard: React.FC<FileOperationToolCardProps> = ({
     if (isLoading) {
       return <CubeLoading size="small" />;
     }
-    if (status === 'completed' && !isFailed) {
-      return <CheckCircle className="icon-completed" size={14} />;
-    }
     return null;
   };
 
@@ -439,7 +436,7 @@ export const FileOperationToolCard: React.FC<FileOperationToolCardProps> = ({
                 content={newStringContent}
                 filePath={currentFilePath}
                 isStreaming={isParamsStreaming}
-                showLineNumbers={true}
+                showLineNumbers={false}
                 maxHeight={300}
                 autoScrollToBottom={true}
                 onLineClick={handleCodeLineClick}
@@ -458,7 +455,7 @@ export const FileOperationToolCard: React.FC<FileOperationToolCardProps> = ({
                 modifiedContent={newStringContent}
                 filePath={currentFilePath}
                 maxHeight={300}
-                showLineNumbers={true}
+                showLineNumbers={false}
                 lineNumberMode="dual"
                 showPrefix={false}
                 contextLines={-1}
@@ -478,7 +475,7 @@ export const FileOperationToolCard: React.FC<FileOperationToolCardProps> = ({
                 content={contentPreview}
                 filePath={currentFilePath}
                 isStreaming={isParamsStreaming}
-                showLineNumbers={true}
+                showLineNumbers={false}
                 maxHeight={300}
                 autoScrollToBottom={true}
                 onLineClick={handleCodeLineClick}
@@ -497,7 +494,7 @@ export const FileOperationToolCard: React.FC<FileOperationToolCardProps> = ({
                 modifiedContent={contentPreview}
                 filePath={currentFilePath}
                 maxHeight={300}
-                showLineNumbers={true}
+                showLineNumbers={false}
                 lineNumberMode="single"
                 showPrefix={true}
                 contextLines={-1}

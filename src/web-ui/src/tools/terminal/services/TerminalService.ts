@@ -36,8 +36,10 @@ export class TerminalService {
   private globalListeners: Set<TerminalEventCallback> = new Set();
   
   private unlistenFn: UnlistenFn | null = null;
-  
+
   private connected: boolean = false;
+
+  private connectingPromise: Promise<void> | null = null;
 
   private constructor() {
   }
@@ -50,21 +52,25 @@ export class TerminalService {
   }
 
   async connect(): Promise<void> {
-    if (this.connected) {
-      return;
-    }
+    if (this.connected) return;
+    if (this.connectingPromise) return this.connectingPromise;
 
-    try {
-      this.unlistenFn = await listen<TerminalEvent>('terminal_event', (event) => {
-        this.handleTerminalEvent(event.payload);
-      });
-      
-      this.connected = true;
-      log.debug('Connected to terminal event stream');
-    } catch (error) {
-      log.error('Failed to connect', error);
-      throw error;
-    }
+    this.connectingPromise = (async () => {
+      try {
+        this.unlistenFn = await listen<TerminalEvent>('terminal_event', (event) => {
+          this.handleTerminalEvent(event.payload);
+        });
+        this.connected = true;
+        log.debug('Connected to terminal event stream');
+      } catch (error) {
+        log.error('Failed to connect', error);
+        throw error;
+      } finally {
+        this.connectingPromise = null;
+      }
+    })();
+
+    return this.connectingPromise;
   }
 
   async disconnect(): Promise<void> {
@@ -90,7 +96,7 @@ export class TerminalService {
     const eventType = rawEvent.type;
     const payload = rawEvent.payload || {};
     const sessionId = payload.session_id;
-    
+
     let event: TerminalEvent;
     switch (eventType) {
       case 'Data':
@@ -128,7 +134,7 @@ export class TerminalService {
         log.warn('Unknown event type', { eventType });
         return;
     }
-    
+
     const sessionListeners = this.eventListeners.get(sessionId);
     if (sessionListeners) {
       sessionListeners.forEach(callback => {

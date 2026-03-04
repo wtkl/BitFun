@@ -55,33 +55,51 @@ export function useTerminal(options: UseTerminalOptions): UseTerminalReturn {
   const serviceRef = useRef<TerminalService>(getTerminalService());
   const unsubscribeRef = useRef<(() => void) | null>(null);
 
+  // Use refs for callbacks to avoid re-creating handleEvent and re-triggering useEffect
+  const onEventRef = useRef(onEvent);
+  const onOutputRef = useRef(onOutput);
+  const onReadyRef = useRef(onReady);
+  const onExitRef = useRef(onExit);
+  const onErrorRef = useRef(onError);
+
+  // Keep refs updated
+  useEffect(() => {
+    onEventRef.current = onEvent;
+    onOutputRef.current = onOutput;
+    onReadyRef.current = onReady;
+    onExitRef.current = onExit;
+    onErrorRef.current = onError;
+  });
+
+  // Stable event handler that uses refs
   const handleEvent = useCallback((event: TerminalEvent) => {
     if (event.sessionId !== sessionId) return;
 
-    onEvent?.(event);
+    onEventRef.current?.(event);
 
     switch (event.type) {
       case 'output':
-        onOutput?.((event as any).data);
+        onOutputRef.current?.((event as any).data);
         break;
       case 'ready':
-        onReady?.();
+        onReadyRef.current?.();
         break;
       case 'exit':
-        onExit?.((event as any).exitCode);
+        onExitRef.current?.((event as any).exitCode);
         break;
       case 'error':
-        onError?.((event as any).message);
+        onErrorRef.current?.((event as any).message);
         setError((event as any).message);
         break;
       case 'resize':
         // Backend resize confirmation requires no extra UI work.
         break;
     }
-  }, [sessionId, onEvent, onOutput, onReady, onExit, onError]);
+  }, [sessionId]); // Only depend on sessionId, not the callbacks
 
   useEffect(() => {
     const service = serviceRef.current;
+    let cancelled = false;
 
     const connect = async () => {
       try {
@@ -91,25 +109,28 @@ export function useTerminal(options: UseTerminalOptions): UseTerminalReturn {
         if (autoConnect && !service.isConnected()) {
           await service.connect();
         }
+
+        if (cancelled) return;
+
         setIsConnected(service.isConnected());
 
-        // Subscribe before fetching session data to avoid missing events.
-        unsubscribeRef.current = service.onSessionEvent(sessionId, handleEvent);
-
-        try {
-          const history = await service.getHistory(sessionId);
-          if (history && history.data) {
-            onOutput?.(history.data);
-          }
-        } catch (historyErr) {
-          log.warn('Failed to get history, continuing connection', { sessionId, error: historyErr });
+        // Subscribe to events
+        const unsubscribe = service.onSessionEvent(sessionId, handleEvent);
+        if (cancelled) {
+          unsubscribe();
+          return;
         }
+        unsubscribeRef.current = unsubscribe;
 
+        // Get session info
         const sessionInfo = await service.getSession(sessionId);
+        if (cancelled) return;
+
         setSession(sessionInfo);
 
         setIsLoading(false);
       } catch (err) {
+        if (cancelled) return;
         const message = err instanceof Error ? err.message : 'Connection failed';
         setError(message);
         setIsLoading(false);
@@ -120,12 +141,14 @@ export function useTerminal(options: UseTerminalOptions): UseTerminalReturn {
     connect();
 
     return () => {
+      cancelled = true;
+      // Clean up the subscription
       if (unsubscribeRef.current) {
         unsubscribeRef.current();
         unsubscribeRef.current = null;
       }
     };
-  }, [sessionId, autoConnect, handleEvent]);
+  }, [sessionId, autoConnect]); // Removed handleEvent from deps since it's stable
 
   const write = useCallback(async (data: string) => {
     try {

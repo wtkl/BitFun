@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Archive, CheckCircle } from 'lucide-react';
+import { Archive } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CubeLoading } from '../../component-library';
 import type { FlowToolItem } from '../types/flow-chat';
@@ -83,9 +83,6 @@ export const ContextCompressionDisplay: React.FC<ContextCompressionDisplayProps>
   const renderStatusIcon = () => {
     if (isLoading) {
       return <CubeLoading size="small" />;
-    }
-    if (data.status === 'completed' && !isFailed) {
-      return <CheckCircle className="icon-completed" size={14} />;
     }
     return null;
   };
