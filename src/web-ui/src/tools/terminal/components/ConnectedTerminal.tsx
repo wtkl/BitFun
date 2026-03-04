@@ -46,26 +46,28 @@ const ConnectedTerminal: React.FC<ConnectedTerminalProps> = memo(({
   const [title, setTitle] = useState<string>(initialSession?.name || 'Terminal');
   const [exitCode, setExitCode] = useState<number | null>(null);
   const [isExited, setIsExited] = useState(false);
-  const [isTerminalReady, setIsTerminalReady] = useState(false);
 
   const lastSentSizeRef = useRef<{ cols: number; rows: number } | null>(null);
 
   // Buffer output until the terminal is ready.
+  // Use a ref (not state) to avoid stale closure issues with isTerminalReady.
+  const isTerminalReadyRef = useRef(false);
   const outputQueueRef = useRef<string[]>([]);
 
   const handleOutput = useCallback((data: string) => {
-    if (!isTerminalReady || !terminalRef.current) {
+    if (!isTerminalReadyRef.current || !terminalRef.current) {
       outputQueueRef.current.push(data);
       return;
     }
     terminalRef.current.write(data);
-  }, [isTerminalReady]);
+  }, []); // No state deps - reads from refs which are always current
 
   const flushOutputQueue = useCallback(() => {
     const queue = outputQueueRef.current;
     if (queue.length === 0) return;
-    queue.forEach(data => terminalRef.current?.write(data));
+    // Clear first to prevent orphaned items if new data arrives during flush
     outputQueueRef.current = [];
+    queue.forEach(data => terminalRef.current?.write(data));
   }, []);
 
   const handleReady = useCallback(() => {
@@ -129,9 +131,11 @@ const ConnectedTerminal: React.FC<ConnectedTerminalProps> = memo(({
   }, [onTitleChange]);
 
   const handleTerminalReady = useCallback(() => {
-    console.log('[ConnectedTerminal] handleTerminalReady called');
-    setIsTerminalReady(true);
-
+    // Set the ref synchronously first so handleOutput immediately writes directly
+    // instead of queuing. This eliminates the stale-closure window where new data
+    // would be queued after flushOutputQueue() cleared the queue but before React
+    // re-rendered and updated onOutputRef.current.
+    isTerminalReadyRef.current = true;
     flushOutputQueue();
   }, [flushOutputQueue]);
 

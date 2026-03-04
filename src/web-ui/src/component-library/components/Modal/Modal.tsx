@@ -3,6 +3,7 @@
  */
 
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { useI18n } from '@/infrastructure/i18n';
 import './Modal.scss';
 
@@ -241,7 +242,7 @@ export const Modal: React.FC<ModalProps> = ({
     ...(dimensions && resizable ? { width: dimensions.width, height: dimensions.height } : {})
   } : {};
 
-  return (
+  return createPortal(
     <div className={`modal-overlay ${placement !== 'center' ? `modal-overlay--${placement}` : ''}`} onClick={onClose}>
       <div
         ref={modalRef}
@@ -294,6 +295,7 @@ export const Modal: React.FC<ModalProps> = ({
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
