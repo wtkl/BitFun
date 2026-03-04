@@ -2,6 +2,7 @@ use crate::agentic::tools::framework::{
     Tool, ToolRenderOptions, ToolResult, ToolUseContext, ValidationResult,
 };
 use crate::infrastructure::events::event_system::get_global_event_system;
+use crate::infrastructure::events::event_system::BackendEvent::ToolExecutionProgress;
 use crate::infrastructure::get_workspace_path;
 use crate::service::config::global::get_global_config_service;
 use crate::util::errors::{BitFunError, BitFunResult};
@@ -169,10 +170,11 @@ Before executing the command, please follow these steps:
 Usage notes:
   - The command argument is required and MUST be a single-line command.
   - DO NOT use multiline commands or HEREDOC syntax (e.g., <<EOF, heredoc with newlines). Only single-line commands are supported.
-  - You can specify an optional timeout in milliseconds.
-  - It is very helpful if you write a clear, concise description of what this command does in 5-10 words.
+  - You can specify an optional timeout in milliseconds (up to 600000ms / 10 minutes). If not specified, commands will timeout after 120000ms (2 minutes).
+  - It is very helpful if you write a clear, concise description of what this command does. For simple commands, keep it brief (5-10 words). For complex commands (piped commands, obscure flags, or anything hard to understand at a glance), add enough context to clarify what it does.
   - If the output exceeds {MAX_OUTPUT_LENGTH} characters, output will be truncated before being returned to you.
-
+  - You can use the `run_in_background` parameter to run the command in the background. Only use this if you don't need the result immediately. You do not need to use '&' at the end of the command when using this parameter.
+  
   - Avoid using this tool with the `find`, `grep`, `cat`, `head`, `tail`, `sed`, `awk`, or `echo` commands, unless explicitly instructed or when these commands are truly necessary for the task. Instead, always prefer using the dedicated tools for these commands:
     - File search: Use Glob (NOT find or ls)
     - Content search: Use Grep (NOT grep or rg)
@@ -203,9 +205,9 @@ Usage notes:
                     "type": "string",
                     "description": "The command to execute"
                 },
-                "timeout": {
+                "timeout_ms": {
                     "type": "number",
-                    "description": "Optional timeout in milliseconds (max 600000)"
+                    "description": "Optional timeout in milliseconds (default 120000, max 600000)"
                 },
                 "description": {
                     "type": "string",
@@ -308,7 +310,15 @@ Usage notes:
             .and_then(|v| v.as_str())
             .ok_or_else(|| BitFunError::tool("command is required".to_string()))?;
 
-        let timeout_ms = input.get("timeout").and_then(|v| v.as_u64());
+        const DEFAULT_TIMEOUT_MS: u64 = 120_000;
+        const MAX_TIMEOUT_MS: u64 = 600_000;
+        let timeout_ms = Some(
+            input
+                .get("timeout_ms")
+                .and_then(|v| v.as_u64())
+                .unwrap_or(DEFAULT_TIMEOUT_MS)
+                .min(MAX_TIMEOUT_MS),
+        );
 
         // Get session_id (for binding terminal session)
         let chat_session_id = context
@@ -350,6 +360,14 @@ Usage notes:
                         &chat_session_id[..8.min(chat_session_id.len())]
                     )),
                     shell_type,
+                    env: Some({
+                        let mut env = std::collections::HashMap::new();
+                        env.insert(
+                            "BITFUN_NONINTERACTIVE".to_string(),
+                            "1".to_string(),
+                        );
+                        env
+                    }),
                     ..Default::default()
                 },
             )
@@ -424,18 +442,16 @@ Usage notes:
                     accumulated_output.push_str(&data);
 
                     // Send progress event to frontend
-                    let progress_event = crate::infrastructure::events::event_system::BackendEvent::ToolExecutionProgress(
-                        ToolExecutionProgressInfo {
-                            tool_use_id: tool_use_id.clone(),
-                            tool_name: tool_name.clone(),
-                            progress_message: data,
-                            percentage: None,
-                            timestamp: std::time::SystemTime::now()
-                                .duration_since(std::time::UNIX_EPOCH)
-                                .unwrap_or_default()
-                                .as_secs(),
-                        }
-                    );
+                    let progress_event = ToolExecutionProgress(ToolExecutionProgressInfo {
+                        tool_use_id: tool_use_id.clone(),
+                        tool_name: tool_name.clone(),
+                        progress_message: data,
+                        percentage: None,
+                        timestamp: std::time::SystemTime::now()
+                            .duration_since(std::time::UNIX_EPOCH)
+                            .unwrap_or_default()
+                            .as_secs(),
+                    });
 
                     let event_system_clone = event_system.clone();
                     tokio::spawn(async move {
