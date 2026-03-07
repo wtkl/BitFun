@@ -64,12 +64,12 @@ function createMockToolItem(
     toolResult: result ? {
       result,
       success: status === 'completed',
-      error: status === 'error' ? '????' : undefined
+      error: status === 'error' ? '执行失败' : undefined
     } : undefined,
     config: config || {
       toolName,
       displayName: toolName,
-      icon: '??',
+      icon: '🔧',
       requiresConfirmation: false,
       resultDisplayType: 'summary',
       description: '',
@@ -83,28 +83,28 @@ function createMockToolItem(
 export const componentRegistry: ComponentCategory[] = [
   {
     id: 'basic',
-    name: '????',
-    description: '?????UI ??',
+    name: '基础组件',
+    description: '常用的基础UI组件',
     layoutType: 'grid-4',
     components: [
       {
         id: 'button-primary',
         name: 'Button - Primary',
-        description: '????',
+        description: '主要按钮',
         category: 'basic',
         component: () => <Button variant="primary">Primary Button</Button>,
       },
       {
         id: 'button-secondary',
         name: 'Button - Secondary',
-        description: '????',
+        description: '次要按钮',
         category: 'basic',
         component: () => <Button variant="secondary">Secondary Button</Button>,
       },
       {
         id: 'button-ghost',
         name: 'Button - Ghost',
-        description: '????',
+        description: '幽灵按钮',
         category: 'basic',
         component: () => <Button variant="ghost">Ghost Button</Button>,
       },
@@ -123,7 +123,7 @@ export const componentRegistry: ComponentCategory[] = [
       },
       {
         id: 'tag-demo',
-        name: 'Tag - ??',
+        name: 'Tag - 演示',
         description: 'Demo',
         category: 'basic',
         component: () => (
@@ -150,7 +150,7 @@ export const componentRegistry: ComponentCategory[] = [
       },
       {
         id: 'icon-button-variants',
-        name: 'IconButton - ??',
+        name: 'IconButton - 变体',
         description: 'Demo',
         category: 'basic',
         component: () => (
@@ -193,7 +193,7 @@ export const componentRegistry: ComponentCategory[] = [
       },
       {
         id: 'icon-button-sizes',
-        name: 'IconButton - ??',
+        name: 'IconButton - 尺寸',
         description: 'Demo',
         category: 'basic',
         component: () => (
@@ -218,7 +218,7 @@ export const componentRegistry: ComponentCategory[] = [
       },
       {
         id: 'icon-button-shapes',
-        name: 'IconButton - ??',
+        name: 'IconButton - 形状',
         description: 'Demo',
         category: 'basic',
         component: () => (
@@ -238,7 +238,7 @@ export const componentRegistry: ComponentCategory[] = [
       },
       {
         id: 'window-controls-demo',
-        name: 'WindowControls - ????',
+        name: 'WindowControls - 窗口控件',
         description: 'Demo',
         category: 'basic',
         component: () => (
@@ -271,20 +271,20 @@ export const componentRegistry: ComponentCategory[] = [
   },
   {
     id: 'feedback',
-    name: '????',
+    name: '反馈组件',
     description: 'Demo',
     layoutType: 'demo',
     components: [
       {
         id: 'cube-loading-variants',
-        name: 'CubeLoading - ??????',
-        description: '3x3x3 ??????????',
+        name: 'CubeLoading - 所有变体',
+        description: '3x3x3 立方体加载动画展示',
         category: 'feedback',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', padding: '20px' }}>
             {}
             <div>
-              <div style={{ fontSize: '12px', color: '#666', marginBottom: '16px', fontWeight: 500 }}>??</div>
+              <div style={{ fontSize: '12px', color: '#666', marginBottom: '16px', fontWeight: 500 }}>尺寸</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '48px', alignItems: 'flex-end' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
                   <CubeLoading size="small" />
@@ -304,8 +304,8 @@ export const componentRegistry: ComponentCategory[] = [
             <div>
               <div style={{ fontSize: '12px', color: '#666', marginBottom: '16px', fontWeight: 500 }}>With text</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '48px', alignItems: 'flex-start' }}>
-                <CubeLoading text="????.." />
-                <CubeLoading size="large" text="????.." />
+                <CubeLoading text="加载中.." />
+                <CubeLoading size="large" text="加载中.." />
               </div>
             </div>
           </div>
@@ -314,17 +314,17 @@ export const componentRegistry: ComponentCategory[] = [
       {
         id: 'modal-basic',
         name: 'Modal - Basic',
-        description: '?????',
+        description: '基础弹窗',
         category: 'feedback',
         component: () => {
           const [isOpen, setIsOpen] = React.useState(false);
           return (
             <>
-              <Button onClick={() => setIsOpen(true)}>?????</Button>
+              <Button onClick={() => setIsOpen(true)}>打开弹窗</Button>
               <Modal
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
-                title="?????"
+                title="基础弹窗"
               >
                 <div style={{ padding: '16px' }}>
                   <p>Modal body content</p>
@@ -336,7 +336,7 @@ export const componentRegistry: ComponentCategory[] = [
       },
       {
         id: 'alert-demo',
-        name: 'Alert - ????',
+        name: 'Alert - 四种类型',
         description: 'Demo',
         category: 'feedback',
         component: () => (
@@ -350,8 +350,8 @@ export const componentRegistry: ComponentCategory[] = [
       },
       {
         id: 'stream-text-demo',
-        name: 'StreamText - ??????',
-        description: 'AI ????????',
+        name: 'StreamText - 流式文本演示',
+        description: 'AI 流式文本打字机效果',
         category: 'feedback',
         component: () => {
           const [key, setKey] = React.useState(0);
@@ -381,7 +381,7 @@ export const componentRegistry: ComponentCategory[] = [
                 variant="secondary"
                 onClick={() => setKey(prev => prev + 1)}
               >
-                ?? ????
+                重新播放
               </Button>
             </div>
           );
@@ -391,8 +391,8 @@ export const componentRegistry: ComponentCategory[] = [
   },
   {
     id: 'form',
-    name: '????',
-    description: '???????',
+    name: '表单组件',
+    description: '输入类表单组件',
     layoutType: 'grid-2',
     components: [
       {
@@ -405,7 +405,7 @@ name: 'Input - Demo',
             <Input placeholder="Enter text" />
             <Input label="Label" placeholder="Placeholder" />
             <Input
-              label="??"
+              label="邮箱"
               type="email"
               placeholder="example@email.com"
               prefix="@"
@@ -445,7 +445,7 @@ name: 'Search - Demo',
           return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '500px' }}>
               <Search
-                placeholder="??????.."
+                placeholder="搜索关键词.."
                 onChange={(val) => setValue(val)}
               />
               <Search
@@ -515,8 +515,8 @@ name: 'Search - Demo',
       },
       {
         id: 'select-basic',
-        name: 'Select - ????',
-        description: '??????????',
+        name: 'Select - 基础选择',
+        description: '基础单选和多选示例',
         category: 'form',
         component: () => {
           const [value, setValue] = React.useState<string | number>('');
@@ -549,7 +549,7 @@ name: 'Search - Demo',
                   { label: 'Svelte', value: 'svelte' },
                   { label: 'Solid', value: 'solid' },
                 ]}
-                placeholder="????"
+                placeholder="选择技术"
                 value={multiValue}
                 onChange={(v) => setMultiValue(v as (string | number)[])}
                 clearable
@@ -579,8 +579,8 @@ name: 'Search - Demo',
       },
       {
         id: 'select-searchable',
-name: 'Select - Demo',
-        description: '??????????',
+        name: 'Select - Demo',
+        description: '可搜索的选择器示例',
         category: 'form',
         component: () => {
           const [value, setValue] = React.useState<string | number>('');
@@ -616,8 +616,8 @@ name: 'Select - Demo',
       },
       {
         id: 'select-grouped',
-        name: 'Select - ????',
-        description: '????????',
+        name: 'Select - 分组选择',
+        description: '带分组的选择器',
         category: 'form',
         component: () => {
           const [value, setValue] = React.useState<string | number>('');
@@ -637,10 +637,10 @@ name: 'Select - Demo',
           return (
             <div style={{ maxWidth: '400px' }}>
               <Select
-                label="?????"
+                label="选择框架"
                 searchable
                 options={options}
-                placeholder="???"
+                placeholder="选择..."
                 value={value}
                 onChange={(v) => setValue(v as string | number)}
                 clearable
@@ -651,8 +651,8 @@ name: 'Select - Demo',
       },
       {
         id: 'select-with-icons',
-name: 'Select - Demo',
-        description: '????????',
+        name: 'Select - Demo',
+        description: '带图标的选择器',
         category: 'form',
         component: () => {
           const [value, setValue] = React.useState<string | number>('');
@@ -707,8 +707,8 @@ name: 'Select - Demo',
       },
       {
         id: 'select-advanced',
-name: 'Select - Demo',
-        description: '?????????????',
+        name: 'Select - Demo',
+        description: '加载、错误和禁用状态',
         category: 'form',
         component: () => {
           const [value1, setValue1] = React.useState<string | number>('');
@@ -753,8 +753,8 @@ name: 'Select - Demo',
       },
       {
         id: 'checkbox-demo',
-name: 'Checkbox - Demo',
-        description: '?????',
+        name: 'Checkbox - Demo',
+        description: '复选框演示',
         category: 'form',
         component: () => {
           const [checked, setChecked] = React.useState(false);
@@ -787,7 +787,7 @@ name: 'Checkbox - Demo',
       },
       {
         id: 'switch-demo',
-name: 'Switch - Demo',
+        name: 'Switch - Demo',
         description: 'Demo',
         category: 'form',
         component: () => {
@@ -829,7 +829,7 @@ name: 'Switch - Demo',
       },
       {
         id: 'textarea-demo',
-name: 'Textarea - Demo',
+        name: 'Textarea - Demo',
         description: 'Demo',
         category: 'form',
         component: () => {
@@ -842,23 +842,23 @@ name: 'Textarea - Demo',
                 placeholder="Placeholder..."
               />
               <Textarea
-                label="????"
-                placeholder="???00??.."
+                label="字数限制"
+                placeholder="最多100字符.."
                 showCount
                 maxLength={100}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
               />
               <Textarea
-                label="??????"
-                placeholder="?????????..."
+                label="自动调整高度"
+                placeholder="内容会自动调整高度..."
                 autoResize
               />
               <Textarea
                 label="Error"
                 error
-                errorMessage="??????"
-                placeholder="????.."
+                errorMessage="请输入有效内容"
+                placeholder="输入内容.."
               />
               <Textarea
                 variant="filled"
@@ -876,8 +876,8 @@ name: 'Textarea - Demo',
   },
   {
     id: 'content',
-    name: '????',
-    description: '??????????????',
+    name: '内容组件',
+    description: '展示内容和媒体的组件',
     layoutType: 'large-card',
     components: [
       {
@@ -887,32 +887,32 @@ description: 'Markdown with GFM support',
         category: 'content',
         component: () => (
           <Markdown
-            content={`# Markdown ??
+            content={`# Markdown 演示
 
-??????**Markdown** ??????
+这是一个**Markdown**渲染示例
 
-## ???
+## 功能
 
-        - ????
-        - GFM ??
-        - ????
-        - ????
+- 代码高亮
+- GFM 支持
+- 数学公式
+- 表格支持
 
 \`\`\`js
 console.log('Hello, BitFun!');
 \`\`\`
 
-> ?????`}
+> 引用块示例`}
           />
         ),
       },
       {
         id: 'code-editor',
         name: 'CodeEditor',
-        description: '?? Monaco Editor ??????',
+        description: '基于 Monaco Editor 的代码编辑器',
         category: 'content',
         component: () => {
-          const [code, setCode] = React.useState(`// TypeScript ????
+          const [code, setCode] = React.useState(`// TypeScript 示例
 interface User {
   name: string;
   age: number;
@@ -941,7 +941,7 @@ console.log(user.greet());`);
                 language="typescript"
                 height="350px"
                 minimap={false}
-                showLineNumbers={true}
+                lineNumbers="on"
                 onChange={(value) => setCode(value || '')}
               />
             </div>
@@ -952,44 +952,44 @@ console.log(user.greet());`);
   },
   {
     id: 'navigation',
-    name: '????',
+    name: '导航组件',
     description: 'Demo',
     layoutType: 'grid-2',
     components: [
       {
         id: 'tabs-demo',
-name: 'Tabs - Demo',
+        name: 'Tabs - Demo',
         description: 'Demo',
         category: 'navigation',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             <Tabs type="line" defaultActiveKey="1">
               <TabPane tabKey="1" label="Tab 1">
-                <div style={{ padding: '16px' }}>Line ?? - ??1</div>
+                <div style={{ padding: '16px' }}>Line 类型 - 内容1</div>
               </TabPane>
               <TabPane tabKey="2" label="Tab 2">
-                <div style={{ padding: '16px' }}>Line ?? - ??2</div>
+                <div style={{ padding: '16px' }}>Line 类型 - 内容2</div>
               </TabPane>
               <TabPane tabKey="3" label="Tab 3">
-                <div style={{ padding: '16px' }}>Line ?? - ??3</div>
+                <div style={{ padding: '16px' }}>Line 类型 - 内容3</div>
               </TabPane>
             </Tabs>
 
             <Tabs type="card" defaultActiveKey="1">
               <TabPane tabKey="1" label="Card 1">
-                <div style={{ padding: '16px' }}>Card ?? - ??1</div>
+                <div style={{ padding: '16px' }}>Card 类型 - 内容1</div>
               </TabPane>
               <TabPane tabKey="2" label="Card 2">
-                <div style={{ padding: '16px' }}>Card ?? - ??2</div>
+                <div style={{ padding: '16px' }}>Card 类型 - 内容2</div>
               </TabPane>
             </Tabs>
 
             <Tabs type="pill" defaultActiveKey="1">
               <TabPane tabKey="1" label="Pill 1">
-                <div style={{ padding: '16px' }}>Pill ?? - ??1</div>
+                <div style={{ padding: '16px' }}>Pill 类型 - 内容1</div>
               </TabPane>
               <TabPane tabKey="2" label="Pill 2">
-                <div style={{ padding: '16px' }}>Pill ?? - ??2</div>
+                <div style={{ padding: '16px' }}>Pill 类型 - 内容2</div>
               </TabPane>
             </Tabs>
           </div>
@@ -999,27 +999,27 @@ name: 'Tabs - Demo',
   },
   {
     id: 'advanced-feedback',
-    name: '????',
-    description: '??????',
+    name: '高级反馈',
+    description: '高级反馈组件',
     layoutType: 'grid-3',
     components: [
       {
         id: 'tooltip-demo',
-        name: 'Tooltip - ????',
-        description: '????',
+        name: 'Tooltip - 位置演示',
+        description: '气泡提示',
         category: 'advanced-feedback',
         component: () => (
           <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', justifyContent: 'center', padding: '40px' }}>
-            <Tooltip content="Top??" placement="top">
+            <Tooltip content="上方提示" placement="top">
               <Button>Top</Button>
             </Tooltip>
-            <Tooltip content="Bottom??" placement="bottom">
+            <Tooltip content="下方提示" placement="bottom">
               <Button>Bottom</Button>
             </Tooltip>
-            <Tooltip content="Left??" placement="left">
+            <Tooltip content="左侧提示" placement="left">
               <Button>Left</Button>
             </Tooltip>
-            <Tooltip content="Right??" placement="right">
+            <Tooltip content="右侧提示" placement="right">
               <Button>Right</Button>
             </Tooltip>
           </div>
@@ -1029,14 +1029,14 @@ name: 'Tabs - Demo',
   },
   {
     id: 'flowchat-cards',
-    name: 'FlowChat ??',
-    description: '?? FlowChat ????????????????',
+    name: 'FlowChat 卡片',
+    description: '展示 FlowChat 工具调用卡片组件的预览',
     layoutType: 'column',
     components: [
       {
         id: 'read-file-card',
-        name: 'ReadFile - ??????',
-        description: '????????',
+        name: 'ReadFile - 文件读取卡片',
+        description: '读取文件的工具卡片',
         category: 'flowchat-cards',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px' }}>
@@ -1071,12 +1071,12 @@ name: 'Tabs - Demo',
       },
       {
         id: 'file-operation-card',
-        name: 'FileOperation - ??????',
-        description: '???????????????????????',
+        name: 'FileOperation - 文件操作卡片',
+        description: '文件写入、编辑、删除操作的工具卡片',
         category: 'flowchat-cards',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px' }}>
-            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>????</h3>
+            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>写入文件</h3>
             <FileOperationToolCard
               toolItem={createMockToolItem('Write',
                 {
@@ -1088,11 +1088,11 @@ name: 'Tabs - Demo',
               )}
               config={TOOL_CARD_CONFIGS['Write']}
               sessionId="preview-session"
-              onConfirm={async () => alert('??????')}
-              onReject={async () => alert('??????')}
+              onConfirm={async () => alert('已确认')}
+              onReject={async () => alert('已拒绝')}
             />
 
-            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>????</h3>
+            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>编辑文件</h3>
             <FileOperationToolCard
               toolItem={createMockToolItem('Edit',
                 {
@@ -1105,11 +1105,11 @@ name: 'Tabs - Demo',
               )}
               config={TOOL_CARD_CONFIGS['Edit']}
               sessionId="preview-session"
-              onConfirm={async () => alert('??????')}
-              onReject={async () => alert('??????')}
+              onConfirm={async () => alert('已确认')}
+              onReject={async () => alert('已拒绝')}
             />
 
-            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>????</h3>
+            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>删除文件</h3>
             <FileOperationToolCard
               toolItem={createMockToolItem('Delete',
                 { target_file: 'src/oldFile.ts' },
@@ -1118,20 +1118,20 @@ name: 'Tabs - Demo',
               )}
               config={TOOL_CARD_CONFIGS['Delete']}
               sessionId="preview-session"
-              onConfirm={async () => alert('????')}
-              onReject={async () => alert('????')}
+              onConfirm={async () => alert('已删除')}
+              onReject={async () => alert('已取消')}
             />
           </div>
         ),
       },
       {
         id: 'search-card',
-        name: 'Search - ????',
+        name: 'Search - 搜索卡片',
         description: 'Demo',
         category: 'flowchat-cards',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px' }}>
-            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>Grep ????</h3>
+            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>Grep 搜索结果</h3>
             <GrepSearchDisplay
               toolItem={createMockToolItem('Grep',
                 { pattern: 'function', path: 'src/' },
@@ -1149,7 +1149,7 @@ name: 'Tabs - Demo',
               sessionId="preview-session"
             />
 
-            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>Grep - ????</h3>
+            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>Grep - 多结果示例</h3>
             <GrepSearchDisplay
               toolItem={createMockToolItem('Grep',
                 { pattern: 'import React', path: 'src/components' },
@@ -1168,7 +1168,7 @@ name: 'Tabs - Demo',
               sessionId="preview-session"
             />
 
-            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>Glob ????</h3>
+            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>Glob 搜索结果</h3>
             <GlobSearchDisplay
               toolItem={createMockToolItem('Glob',
                 { glob_pattern: '*.tsx' },
@@ -1182,7 +1182,7 @@ name: 'Tabs - Demo',
               sessionId="preview-session"
             />
 
-            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>LS ????</h3>
+            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>LS 目录列表</h3>
             <LSDisplay
               toolItem={createMockToolItem('LS',
                 { target_directory: 'src/components' },
@@ -1206,7 +1206,7 @@ name: 'Tabs - Demo',
       },
       {
         id: 'task-card',
-        name: 'Task - AI????',
+        name: 'Task - AI任务卡片',
         description: 'AI task execution',
         category: 'flowchat-cards',
         component: () => (
@@ -1259,7 +1259,7 @@ All requirements met`,
       },
       {
         id: 'todo-card',
-        name: 'TodoWrite - Todo??????',
+        name: 'TodoWrite - Todo任务管理',
         description: 'Demo',
         category: 'flowchat-cards',
         component: () => (
@@ -1316,7 +1316,7 @@ All requirements met`,
               sessionId="preview-session"
             />
 
-            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>Todo???? - ????</h3>
+            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>Todo进度 - 进行中</h3>
             <TodoWriteDisplay
               toolItem={createMockToolItem('TodoWrite',
                 {
@@ -1395,8 +1395,8 @@ All requirements met`,
       },
       {
         id: 'web-search-card',
-        name: 'WebSearch - ??????',
-        description: '???????URL??',
+        name: 'WebSearch - 搜索结果卡片',
+        description: '网络搜索结果和URL展示',
         category: 'flowchat-cards',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px' }}>
@@ -1419,7 +1419,7 @@ All requirements met`,
               sessionId="preview-session"
             />
 
-            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>???? - ????</h3>
+            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>多结果 - 网页搜索</h3>
             <RealWebSearchCard
               toolItem={createMockToolItem('WebSearch',
                 { query: 'TypeScript best practices' },
@@ -1452,12 +1452,12 @@ All requirements met`,
       },
       {
         id: 'mcp-tool-card',
-        name: 'MCP - MCP????',
-        description: '??MCP????????',
+        name: 'MCP - MCP工具卡片',
+        description: '展示MCP工具调用的卡片组件',
         category: 'flowchat-cards',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px' }}>
-            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>MCP?? - ????</h3>
+            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>MCP工具 - 文件列表</h3>
             <MCPToolDisplay
               toolItem={createMockToolItem('mcp_server_list_files',
                 { directory: '/project/src' },
@@ -1474,10 +1474,10 @@ All requirements met`,
               config={{
                 toolName: 'mcp_server_list_files',
                 displayName: 'list_files',
-                icon: '??',
+                icon: '🔌',
                 requiresConfirmation: false,
                 resultDisplayType: 'detailed',
-                description: 'MCP?? from server',
+                description: 'MCP工具调用',
                 displayMode: 'compact',
                 primaryColor: '#8b5cf6'
               }}
@@ -1494,10 +1494,10 @@ All requirements met`,
               config={{
                 toolName: 'mcp_server_fetch_data',
                 displayName: 'fetch_data',
-                icon: '??',
+                icon: '🔌',
                 requiresConfirmation: false,
                 resultDisplayType: 'detailed',
-                description: 'MCP?? from server',
+                description: 'MCP工具调用',
                 displayMode: 'compact',
                 primaryColor: '#8b5cf6'
               }}
@@ -1508,8 +1508,8 @@ All requirements met`,
       },
       {
         id: 'mermaid-interactive-card',
-        name: 'MermaidInteractive - Mermaid????',
-        description: '??Mermaid??????',
+        name: 'MermaidInteractive - Mermaid图表',
+        description: '展示Mermaid交互式图表',
         category: 'flowchat-cards',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px' }}>
@@ -1587,8 +1587,8 @@ All requirements met`,
       },
       {
         id: 'image-analysis-card',
-        name: 'view_image - ????',
-        description: '????????',
+        name: 'view_image - 图片分析',
+        description: '图片查看分析工具',
         category: 'flowchat-cards',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px' }}>
@@ -1615,8 +1615,8 @@ All requirements met`,
       },
       {
         id: 'ide-control-card',
-        name: 'IdeControl - IDE??',
-        description: '??IDE????',
+        name: 'IdeControl - IDE控制',
+        description: '控制IDE的操作卡片',
         category: 'flowchat-cards',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px' }}>
@@ -1703,11 +1703,11 @@ All requirements met`,
       {
         id: 'skill-card',
         name: 'Skill - Demo',
-        description: '??Skill???????',
+        description: '展示Skill技能调用组件',
         category: 'flowchat-cards',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px' }}>
-            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>Skill??</h3>
+            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>Skill调用</h3>
             <SkillDisplay
               toolItem={createMockToolItem('Skill',
                 {
@@ -1728,7 +1728,7 @@ All requirements met`,
       },
       {
         id: 'ask-user-card',
-        name: 'AskUserQuestion - ????',
+        name: 'AskUserQuestion - 用户问题',
         description: 'AI user question',
         category: 'flowchat-cards',
         component: () => (
@@ -1757,29 +1757,29 @@ All requirements met`,
               sessionId="preview-session"
             />
 
-            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>???? - ??????</h3>
+            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>多问题 - 单选和多选</h3>
             <AskUserQuestionCard
               toolItem={createMockToolItem('AskUserQuestion',
                 {
                   questions: [
                     {
-                      question: '??????UI????',
-                      header: 'UI??',
+                      question: '您想使用哪种UI框架?',
+                      header: 'UI框架',
                       options: [
-                        { label: 'React', description: '??React????' },
-                        { label: 'Vue', description: '??Vue????' },
-                        { label: 'Angular', description: '??Angular????' }
+                        { label: 'React', description: '使用React框架' },
+                        { label: 'Vue', description: '使用Vue框架' },
+                        { label: 'Angular', description: '使用Angular框架' }
                       ],
                       multiSelect: false
                     },
                     {
-                      question: '?????????',
-                      header: '????',
+                      question: '需要哪些开发工具?',
+                      header: '开发工具',
                       options: [
-                        { label: 'TypeScript', description: '??TypeScript??' },
-                        { label: 'ESLint', description: '???????' },
-                        { label: 'Prettier', description: '????????' },
-                        { label: '????', description: '????????' }
+                        { label: 'TypeScript', description: '使用TypeScript' },
+                        { label: 'ESLint', description: '代码规范检查' },
+                        { label: 'Prettier', description: '代码格式化工具' },
+                        { label: '其他', description: '其他开发工具' }
                       ],
                       multiSelect: true
                     }
@@ -1792,18 +1792,18 @@ All requirements met`,
               sessionId="preview-session"
             />
 
-            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>Read - Success</h3>
+            <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>已回答 - 数据库选择</h3>
             <AskUserQuestionCard
               toolItem={createMockToolItem('AskUserQuestion',
                 {
                   questions: [
                     {
-                      question: '????????',
-                      header: '????',
+                      question: '您想使用哪种数据库?',
+                      header: '数据库',
                       options: [
-                        { label: 'PostgreSQL', description: '??????' },
-                        { label: 'MongoDB', description: 'NoSQL??????' },
-                        { label: 'SQLite', description: '??????????' }
+                        { label: 'PostgreSQL', description: '关系型数据库' },
+                        { label: 'MongoDB', description: 'NoSQL文档数据库' },
+                        { label: 'SQLite', description: '轻量级嵌入式数据库' }
                       ],
                       multiSelect: false
                     }
@@ -1823,8 +1823,8 @@ All requirements met`,
       },
       {
         id: 'reproduction-steps-card',
-        name: 'ReproductionSteps - ????',
-        description: '????????????????????????????????',
+        name: 'ReproductionSteps - 复现步骤',
+        description: '用于展示问题复现步骤并等待用户操作确认的卡片',
         category: 'flowchat-cards',
         component: () => {
           const CompletedReproductionSteps = () => {
@@ -1871,7 +1871,7 @@ All requirements met`,
       },
       {
         id: 'create-plan-card',
-        name: 'CreatePlan - ????',
+        name: 'CreatePlan - 计划创建',
         description: 'Demo',
         category: 'flowchat-cards',
         component: () => (
@@ -1937,8 +1937,8 @@ All requirements met`,
       },
       {
         id: 'git-tool-card',
-        name: 'Git - ??????',
-        description: '??Git????????????Git????',
+        name: 'Git - 版本控制卡片',
+        description: '展示Git操作结果的工具卡片组件',
         category: 'flowchat-cards',
         component: () => (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px' }}>
@@ -2048,7 +2048,7 @@ index abc1234..def5678 100644
               sessionId="preview-session"
             />
 
-            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>Git Pull - ????</h3>
+            <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>Git Pull - 冲突错误</h3>
             <GitToolDisplay
               toolItem={createMockToolItem('Git',
                 {
@@ -2079,7 +2079,7 @@ Aborting`,
       {
         id: 'model-thinking-card',
         name: 'ModelThinking - Demo',
-        description: '??AI????????????????????????',
+        description: '展示AI模型推理过程的思考状态组件',
         category: 'flowchat-cards',
         component: () => {
           const createMockThinkingItem = (
@@ -2098,68 +2098,68 @@ Aborting`,
 
           return (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px' }}>
-              <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>?????- ??????</h3>
+              <h3 style={{ color: '#ffffff', marginBottom: '8px' }}>模型思考 - 流式输出</h3>
               <ModelThinkingDisplay
                 thinkingItem={createMockThinkingItem(
-                  `??????????..
+                  `正在分析用户的请求..
 
-??????????????
-- ???????????????
-- ?????????????
-- ????????????????
+让我仔细思考这个问题的解决方案
+- 首先需要理解用户的具体需求
+- 然后考虑可行的实现方案
+- 最后选择最优的解决方案
 
-????????????????..`,
+继续深入分析相关细节..`,
                   true,
                   'streaming'
                 )}
               />
 
-              <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>?????- ???????????</h3>
+              <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>模型思考 - 折叠完成状态</h3>
               <ModelThinkingDisplay
                 thinkingItem={createMockThinkingItem(
-                  `???????????????????
+                  `分析了用户关于性能优化的问题
 
-??????
-1. ????????????
-2. ???? React.memo ????
-3. ??????????
+解决方案
+1. 使用虚拟列表减少DOM渲染
+2. 引入 React.memo 缓存组件
+3. 懒加载非关键资源
 
-????????
-- ???????????
-- ???? memoization
-- ?????????
+优化重点
+- 减少不必要的重渲染
+- 合理使用 memoization
+- 分割大型组件
 
-??????????????????????`,
+以上方案可以显著提升应用性能`,
                   false,
                   'completed'
                 )}
               />
 
-              <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>?????- ??????</h3>
+              <h3 style={{ color: '#ffffff', marginTop: '16px', marginBottom: '8px' }}>模型思考 - 长内容展示</h3>
               <ModelThinkingDisplay
                 thinkingItem={createMockThinkingItem(
-                  `???????????????????????????
+                  `这是一个复杂任务，需要多步骤分析
 
-????????
-?????????????????????????????????????????????????FlowChat ???? ModelThinkingDisplay ????
+背景信息
+用户希望在组件库预览页面中展示各种工具卡片的效果，包括FlowChat 相关的 ModelThinkingDisplay 组件
 
-?????????
-????????????ModelThinkingDisplay ??????????????
-- ?????????????????????????
-- ???????????????????????
+需求分析
+我需要为预览页面创建ModelThinkingDisplay 的示例数据，包含以下场景
+- 流式输出状态（模拟AI正在思考的动态效果）
+- 完成折叠状态（思考完成后默认折叠）
 
-????????
-??? registry.tsx ??
-1. ?? ModelThinkingDisplay ??
-2. ?? FlowThinkingItem ??
-3. ??????????
-4. ????????
+实现计划
+在 registry.tsx 中
+1. 导入 ModelThinkingDisplay 组件
+2. 创建 FlowThinkingItem 类型数据
+3. 设置不同的状态场景
+4. 添加展示样例
 
-????????
-????????????????????????????
+执行结果
+已成功创建三种不同状态的思考展示示例
 
-????
-???????????????????????`,
+总结
+ModelThinkingDisplay 组件展示效果符合预期`,
                   false,
                   'completed'
                 )}
